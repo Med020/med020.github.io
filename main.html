@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Mondir BALALI | Sport-Tech Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.png" type="image/png">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;--black-light:#111;--black-card:#161616;
+  --red:#c41e2a;--red-bright:#e63240;--red-dark:#8b1520;
+  --white:#f0f0f0;--gray:#888;--gray-dark:#333;--gray-light:#ccc;
+  --sidebar-w:72px;--sidebar-exp:220px;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-body:'Barlow',sans-serif;
+  --font-cond:'Barlow Condensed',sans-serif;
+  --ease:0.35s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"]{
+  --black:#f5f5f5;--black-light:#eaeaea;--black-card:#fff;
+  --white:#111;--gray:#666;--gray-dark:#ccc;--gray-light:#444;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--black);color:var(--white);overflow-x:hidden;transition:background var(--ease),color var(--ease)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:3px}
+
+/* BG CANVAS */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.3}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:#050505;border-right:1px solid rgba(196,30,42,.15);display:flex;flex-direction:column;align-items:center;padding:20px 0;z-index:1000;transition:width var(--ease);overflow:hidden}
+[data-theme="light"] .sidebar{background:#1a1a1a}
+.sidebar:hover{width:var(--sidebar-exp)}
+.sidebar-logo{width:40px;height:40px;margin-bottom:30px;flex-shrink:0}
+.sidebar-nav{display:flex;flex-direction:column;gap:4px;width:100%;flex:1;padding:0 8px}
+.sidebar-nav a{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:8px;color:var(--gray);font-family:var(--font-cond);font-size:.85rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;overflow:hidden;transition:all var(--ease);position:relative}
+.sidebar-nav a::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:0;background:var(--red);border-radius:2px;transition:height var(--ease)}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:#fff;background:rgba(196,30,42,.08)}
+.sidebar-nav a.active::before{height:20px}
+.sidebar-nav a svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8}
+.sidebar-nav a span{opacity:0;transition:opacity var(--ease)}
+.sidebar:hover .sidebar-nav a span{opacity:1}
+
+.sidebar-controls{display:flex;flex-direction:column;gap:8px;width:100%;padding:0 8px;margin-top:auto}
+.sidebar-controls button{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:8px;background:0;border:0;color:var(--gray);font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;overflow:hidden;transition:all var(--ease)}
+.sidebar-controls button:hover{color:#fff;background:rgba(196,30,42,.08)}
+.sidebar-controls button svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8}
+.sidebar-controls button span{opacity:0;transition:opacity var(--ease)}
+.sidebar:hover .sidebar-controls button span{opacity:1}
+
+/* MOBILE */
+.mobile-toggle{display:none;position:fixed;top:16px;left:16px;z-index:1100;width:44px;height:44px;background:#050505;border:1px solid rgba(196,30,42,.3);border-radius:8px;cursor:pointer;align-items:center;justify-content:center}
+.mobile-toggle svg{stroke:#fff;width:22px;height:22px;fill:none;stroke-width:2}
+.sidebar-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:999}
+.sidebar-overlay.active{display:block}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);position:relative;z-index:1}
+section{min-height:100vh;padding:80px 60px;position:relative}
+
+.section-label{font-family:var(--font-display);font-size:.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';width:30px;height:1px;background:var(--red)}
+.section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:2px;line-height:1;margin-bottom:40px}
+
+/* HERO */
+#home{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px 60px;overflow:hidden}
+.hero-content{max-width:800px}
+.hero-tag{font-family:var(--font-cond);font-size:.9rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:20px;opacity:0;transform:translateY(20px);animation:fadeUp .8s .3s forwards}
+.hero-name{font-family:var(--font-display);font-size:clamp(3.5rem,8vw,7rem);letter-spacing:3px;line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(30px);animation:fadeUp .8s .5s forwards}
+.hero-name .red{color:var(--red)}
+.hero-sub{font-family:var(--font-cond);font-size:clamp(1rem,2vw,1.4rem);font-weight:400;color:var(--gray);line-height:1.6;margin-bottom:40px;max-width:600px;opacity:0;transform:translateY(20px);animation:fadeUp .8s .7s forwards}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;transform:translateY(20px);animation:fadeUp .8s .9s forwards}
+.hero-line{position:absolute;right:10%;top:15%;width:1px;height:70%;background:linear-gradient(to bottom,transparent,var(--red),transparent);opacity:.2}
+.hero-line::after{content:'';position:absolute;top:50%;left:-4px;width:9px;height:9px;background:var(--red);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+
+/* BUTTONS */
+.btn{font-family:var(--font-cond);font-weight:600;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;border:none;border-radius:4px;cursor:pointer;transition:all var(--ease);display:inline-flex;align-items:center;gap:10px}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:var(--red-bright);transform:translateY(-2px);box-shadow:0 8px 30px rgba(196,30,42,.3)}
+.btn-outline{background:0;color:var(--white);border:1px solid var(--gray-dark)}
+.btn-outline:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.about-text{font-size:1rem;line-height:1.8;color:var(--gray-light)}
+.about-text p{margin-bottom:20px}
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,var(--red),var(--gray-dark))}
+.timeline-item{position:relative;margin-bottom:40px}
+.timeline-item::before{content:'';position:absolute;left:-34px;top:6px;width:10px;height:10px;background:var(--red);border-radius:50%;border:2px solid var(--black)}
+.timeline-date{font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:2px;color:var(--red);text-transform:uppercase;margin-bottom:6px}
+.timeline-title{font-family:var(--font-cond);font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.timeline-sub{font-size:.85rem;color:var(--gray);font-style:italic}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.skill-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:30px;transition:all var(--ease);position:relative;overflow:hidden}
+.skill-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--red),transparent);opacity:0;transition:opacity var(--ease)}
+.skill-card:hover::before{opacity:1}
+.skill-card:hover{transform:translateY(-4px);border-color:rgba(196,30,42,.2)}
+.skill-card-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.skill-card-header svg{width:24px;height:24px;stroke:var(--red);fill:none;stroke-width:1.8}
+.skill-card-header h3{font-family:var(--font-cond);font-size:1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.skill-item{margin-bottom:16px}
+.skill-item-header{display:flex;justify-content:space-between;margin-bottom:6px}
+.skill-item-name{font-family:var(--font-cond);font-size:.85rem;font-weight:600;color:var(--gray-light)}
+.skill-item-pct{font-family:var(--font-cond);font-size:.8rem;color:var(--red);font-weight:600}
+.skill-bar{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.skill-bar-fill{height:100%;background:linear-gradient(90deg,var(--red-dark),var(--red));border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.soft-skills-tags{display:flex;flex-wrap:wrap;gap:8px}
+.soft-tag{font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:.5px;padding:8px 16px;border:1px solid rgba(196,30,42,.3);border-radius:20px;color:var(--gray-light);transition:all var(--ease)}
+.soft-tag:hover{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column;gap:32px}
+.exp-card{display:grid;grid-template-columns:180px 1fr;gap:30px;padding:30px;background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;transition:all var(--ease);position:relative}
+.exp-card:hover{border-color:rgba(196,30,42,.2);transform:translateX(4px)}
+.exp-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--red);border-radius:2px 0 0 2px;opacity:0;transition:opacity var(--ease)}
+.exp-card:hover::before{opacity:1}
+.exp-date{font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:1px;color:var(--red);text-transform:uppercase;padding-top:4px}
+.exp-role{font-family:var(--font-cond);font-size:1.2rem;font-weight:700;margin-bottom:4px}
+.exp-org{font-family:var(--font-cond);font-size:.9rem;color:var(--gray);margin-bottom:12px}
+.exp-desc{font-size:.9rem;line-height:1.7;color:var(--gray-light)}
+.exp-techs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.exp-tech-tag{font-family:var(--font-cond);font-size:.7rem;font-weight:600;letter-spacing:.5px;padding:4px 10px;background:rgba(196,30,42,.1);border-radius:3px;color:var(--red)}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:30px}
+.project-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;overflow:hidden;transition:all var(--ease)}
+.project-card:hover{transform:translateY(-6px);border-color:rgba(196,30,42,.25);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.project-img{width:100%;height:200px;background:linear-gradient(135deg,var(--black-light),var(--gray-dark));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.project-img svg{width:80%;height:80%;opacity:.6}
+.project-img::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:40%;background:linear-gradient(to top,var(--black-card),transparent)}
+.project-body{padding:24px}
+.project-title{font-family:var(--font-cond);font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.project-desc{font-size:.85rem;line-height:1.7;color:var(--gray);margin-bottom:16px}
+.project-stack{display:flex;flex-wrap:wrap;gap:6px}
+.project-stack-tag{font-family:var(--font-cond);font-size:.7rem;font-weight:600;padding:4px 10px;border:1px solid rgba(196,30,42,.25);border-radius:3px;color:var(--red)}
+
+/* CERTIFICATIONS */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.cert-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:24px;display:flex;gap:16px;align-items:flex-start;transition:all var(--ease)}
+.cert-card:hover{border-color:rgba(196,30,42,.2);transform:translateY(-3px)}
+.cert-icon{width:42px;height:42px;flex-shrink:0;background:rgba(196,30,42,.1);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.cert-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.8}
+.cert-title{font-family:var(--font-cond);font-size:.95rem;font-weight:700;margin-bottom:4px}
+.cert-org{font-size:.8rem;color:var(--gray)}
+
+/* LEADERSHIP */
+.org-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:30px;max-width:500px;transition:all var(--ease)}
+.org-card:hover{border-color:rgba(196,30,42,.2)}
+.org-role{font-family:var(--font-display);font-size:1.8rem;margin-bottom:4px}
+.org-name{font-family:var(--font-cond);font-weight:600;color:var(--red);margin-bottom:4px}
+.org-date{font-size:.8rem;color:var(--gray)}
+
+/* LANGUAGES */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;max-width:700px}
+.lang-card{text-align:center;padding:30px 20px;background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;transition:all var(--ease)}
+.lang-card:hover{border-color:rgba(196,30,42,.2);transform:translateY(-3px)}
+.lang-name{font-family:var(--font-cond);font-size:1rem;font-weight:700;margin-bottom:12px}
+.lang-circle{width:80px;height:80px;margin:0 auto 12px}
+.lang-circle svg{width:80px;height:80px;transform:rotate(-90deg)}
+.lang-circle circle{fill:none;stroke-width:4}
+.lang-circle .bg{stroke:rgba(255,255,255,.06)}
+.lang-circle .fill{stroke:var(--red);stroke-dasharray:226;stroke-dashoffset:226;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.lang-level{font-family:var(--font-cond);font-size:.75rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase}
+
+/* CONTACT */
+#contact{min-height:80vh}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact-info-item{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:16px;background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:8px;transition:all var(--ease)}
+.contact-info-item:hover{border-color:rgba(196,30,42,.2)}
+.contact-info-item svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:1.8;flex-shrink:0}
+.contact-info-text{font-family:var(--font-cond);font-size:.9rem;font-weight:500;color:var(--gray-light)}
+.contact-form{display:flex;flex-direction:column;gap:16px}
+.contact-form input,.contact-form textarea{font-family:var(--font-body);font-size:.9rem;padding:14px 18px;background:var(--black-card);border:1px solid rgba(255,255,255,.08);border-radius:6px;color:var(--white);outline:none;transition:border-color var(--ease)}
+.contact-form input:focus,.contact-form textarea:focus{border-color:var(--red)}
+.contact-form textarea{resize:vertical;min-height:120px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* FOOTER */
+.footer{text-align:center;padding:30px;font-size:.75rem;color:var(--gray);font-family:var(--font-cond);letter-spacing:1px;border-top:1px solid rgba(255,255,255,.05)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  section{padding:60px 40px}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .exp-card{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);width:var(--sidebar-exp)!important;transition:transform var(--ease)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar .sidebar-nav a span,.sidebar .sidebar-controls button span{opacity:1!important}
+  .mobile-toggle{display:flex}
+  .main{margin-left:0}
+  section{padding:60px 24px}
+  .hero-line{display:none}
+  .skills-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+  <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg viewBox="0 0 40 40"><polygon points="20,2 38,12 38,28 20,38 2,28 2,12" fill="none" stroke="#c41e2a" stroke-width="2"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="central" fill="#c41e2a" font-family="Bebas Neue,sans-serif" font-size="14" letter-spacing="1">MB</text></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a href="#home" class="active" data-section="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span data-en="Home" data-fr="Accueil">Home</span></a>
+    <a href="#about" data-section="about"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-en="About" data-fr="Profil">About</span></a>
+    <a href="#skills" data-section="skills"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span data-en="Skills" data-fr="Competences">Skills</span></a>
+    <a href="#experience" data-section="experience"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg><span data-en="Experience" data-fr="Experience">Experience</span></a>
+    <a href="#projects" data-section="projects"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span data-en="Projects" data-fr="Projets">Projects</span></a>
+    <a href="#certifications" data-section="certifications"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg><span data-en="Certifications" data-fr="Certifications">Certifications</span></a>
+    <a href="#leadership" data-section="leadership"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-en="Leadership" data-fr="Leadership">Leadership</span></a>
+    <a href="#languages" data-section="languages"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span data-en="Languages" data-fr="Langues">Languages</span></a>
+    <a href="#contact" data-section="contact"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-en="Contact" data-fr="Contact">Contact</span></a>
+  </div>
+  <div class="sidebar-controls">
+    <button id="langToggle"><svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/><path d="M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg><span>EN / FR</span></button>
+    <button id="themeToggle"><svg viewBox="0 0 24 24" id="themeIcon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span data-en="Theme" data-fr="Theme">Theme</span></button>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- HOME -->
+<section id="home">
+  <div class="hero-content">
+    <p class="hero-tag" data-en="Sport-Tech Developer &amp; Digital Innovator" data-fr="Developpeur Sport-Tech &amp; Innovateur Digital">Sport-Tech Developer &amp; Digital Innovator</p>
+    <h1 class="hero-name">MOHAMED MONDIR <span class="red">BALALI</span></h1>
+    <p class="hero-sub" data-en="Bridging the gap between sport performance and technology. Specializing in full-stack development, augmented reality, and data-driven solutions for the sports industry." data-fr="Combler le fosse entre la performance sportive et la technologie. Specialise dans le developpement full-stack, la realite augmentee et les solutions basees sur les donnees pour l'industrie du sport.">Bridging the gap between sport performance and technology. Specializing in full-stack development, augmented reality, and data-driven solutions for the sports industry.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span data-en="View Projects" data-fr="Voir Projets">View Projects</span></a>
+      <a href="#contact" class="btn btn-outline"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-en="Contact Me" data-fr="Me Contacter">Contact Me</span></a>
+    </div>
+  </div>
+  <div class="hero-line"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal"><p class="section-label" data-en="Who I Am" data-fr="Qui suis-je">Who I Am</p><h2 class="section-title" data-en="ABOUT ME" data-fr="A PROPOS">ABOUT ME</h2></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p data-en="I am a passionate software developer with a strong background in Computer Science Engineering, currently pursuing a Master's degree in Digital Transformation and Sport Technologies at the Institute of Sport Sciences in Settat, Morocco." data-fr="Je suis un developpeur logiciel passionne avec une solide formation en Genie Informatique, poursuivant actuellement un Master en Transformation Digitale et Technologies du Sport a l'Institut des Sciences du Sport de Settat, Maroc.">I am a passionate software developer with a strong background in Computer Science Engineering, currently pursuing a Master's degree in Digital Transformation and Sport Technologies at the Institute of Sport Sciences in Settat, Morocco.</p>
+      <p data-en="My expertise spans full-stack web development, augmented reality applications, and data analysis for sports performance. I thrive at the intersection of technology and athletics, building innovative digital solutions that enhance training, rehabilitation, and athletic performance analysis." data-fr="Mon expertise couvre le developpement web full-stack, les applications de realite augmentee et l'analyse de donnees pour la performance sportive. Je m'epanouis a l'intersection de la technologie et du sport, en construisant des solutions digitales innovantes.">My expertise spans full-stack web development, augmented reality applications, and data analysis for sports performance. I thrive at the intersection of technology and athletics, building innovative digital solutions that enhance training, rehabilitation, and athletic performance analysis.</p>
+    </div>
+    <div class="reveal">
+      <p class="section-label" data-en="Education" data-fr="Formation">Education</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <p class="timeline-date">2024 - 2026</p>
+          <h4 class="timeline-title" data-en="Master Digital Transformation &amp; Sport Technologies" data-fr="Master Transformation Digitale et Technologies de Sport">Master Digital Transformation &amp; Sport Technologies</h4>
+          <p class="timeline-sub" data-en="Institute of Sport Sciences, Settat" data-fr="Institut des Sciences du Sport, Settat">Institute of Sport Sciences, Settat</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2019 - 2023</p>
+          <h4 class="timeline-title" data-en="Bachelor's in Computer Science Engineering" data-fr="Licence en Genie Informatique">Bachelor's in Computer Science Engineering</h4>
+          <p class="timeline-sub" data-en="Faculty of Sciences and Techniques, Settat" data-fr="Faculte des Sciences et Techniques, Settat">Faculty of Sciences and Techniques, Settat</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal"><p class="section-label" data-en="Technical Arsenal" data-fr="Arsenal Technique">Technical Arsenal</p><h2 class="section-title" data-en="SKILLS" data-fr="COMPETENCES">SKILLS</h2></div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-header"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><h3 data-en="Programming Languages" data-fr="Langages de Programmation">Programming Languages</h3></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Python</span><span class="skill-item-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">JavaScript</span><span class="skill-item-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">PHP</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Dart</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">C# / C</span><span class="skill-item-pct">65%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="65"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">SQL / R</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-header"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20"/><path d="M17 2v20"/><path d="M2 12h20"/></svg><h3 data-en="Frameworks &amp; Tools" data-fr="Frameworks &amp; Outils">Frameworks &amp; Tools</h3></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">React / Next.js / Vue.js</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Angular / Spring Boot</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Flutter</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Unity / AR Development</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Streamlit / Data Tools</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Git / Postman / WordPress</span><span class="skill-item-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-header"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><h3 data-en="Sport &amp; Data Technologies" data-fr="Technologies Sport &amp; Data">Sport &amp; Data Technologies</h3></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Football Analytics</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">MediaPipe / Pose Detection</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Statistical Analysis</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
+      <div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">AR for Rehabilitation</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
+      <p class="section-label" style="margin-top:24px" data-en="Soft Skills" data-fr="Competences Douces">Soft Skills</p>
+      <div class="soft-skills-tags" style="margin-top:12px">
+        <span class="soft-tag" data-en="Communication" data-fr="Communication">Communication</span>
+        <span class="soft-tag" data-en="Adaptability" data-fr="Adaptabilite">Adaptability</span>
+        <span class="soft-tag" data-en="Teamwork" data-fr="Travail d'equipe">Teamwork</span>
+        <span class="soft-tag" data-en="Punctuality" data-fr="Ponctualite">Punctuality</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal"><p class="section-label" data-en="Career Path" data-fr="Parcours Professionnel">Career Path</p><h2 class="section-title" data-en="EXPERIENCE" data-fr="EXPERIENCE">EXPERIENCE</h2></div>
+  <div class="exp-list">
+    <div class="exp-card reveal">
+      <div class="exp-date">Jul - Sep 2025</div>
+      <div><h3 class="exp-role" data-en="Observation Internship" data-fr="Stage d'observation">Observation Internship</h3><p class="exp-org">Raja Club Athletic</p><p class="exp-desc" data-en="Immersed in the professional environment of one of Morocco's most prestigious football clubs. Gained firsthand exposure to high-level sports operations, performance workflows, and technology integration within elite athletic organizations." data-fr="Immersion dans l'environnement professionnel de l'un des clubs de football les plus prestigieux du Maroc. Exposition directe aux operations sportives de haut niveau et a l'integration de la technologie.">Immersed in the professional environment of one of Morocco's most prestigious football clubs. Gained firsthand exposure to high-level sports operations, performance workflows, and technology integration within elite athletic organizations.</p><div class="exp-techs"><span class="exp-tech-tag">Sport Operations</span><span class="exp-tech-tag">Performance Analysis</span></div></div>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-date">Jul 2025</div>
+      <div><h3 class="exp-role" data-en="IT Support Volunteer (Freelance)" data-fr="Support IT Volontaire (Freelance)">IT Support Volunteer (Freelance)</h3><p class="exp-org" data-en="Confederation of African Football (CAF)" data-fr="Confederation Africaine de Football (CAF)">Confederation of African Football (CAF)</p><p class="exp-desc" data-en="Provided critical technical support during the Women's Africa Cup of Nations. Resolved hardware and software issues, configured network systems, and assisted with broadcast infrastructure ensuring seamless tournament operations." data-fr="Support technique critique lors de la CAN Feminine. Resolution des problemes materiels et logiciels, configuration reseau et assistance a l'infrastructure de diffusion.">Provided critical technical support during the Women's Africa Cup of Nations. Resolved hardware and software issues, configured network systems, and assisted with broadcast infrastructure ensuring seamless tournament operations.</p><div class="exp-techs"><span class="exp-tech-tag">IT Support</span><span class="exp-tech-tag">Networking</span><span class="exp-tech-tag">Broadcast</span></div></div>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-date">Jul - Sep 2024</div>
+      <div><h3 class="exp-role" data-en="Angular / Spring Boot Developer" data-fr="Developpeur Angular / Spring Boot">Angular / Spring Boot Developer</h3><p class="exp-org">Amasoft MAROC</p><p class="exp-desc" data-en="Contributed to designing a comprehensive web application for school management. Built modular Angular frontend components and robust Spring Boot backend services with RESTful APIs." data-fr="Contribution a la conception d'une application web complete pour la gestion scolaire avec Angular et Spring Boot.">Contributed to designing a comprehensive web application for school management. Built modular Angular frontend components and robust Spring Boot backend services with RESTful APIs.</p><div class="exp-techs"><span class="exp-tech-tag">Angular</span><span class="exp-tech-tag">Spring Boot</span><span class="exp-tech-tag">REST API</span><span class="exp-tech-tag">SQL</span></div></div>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-date">Mar - Jun 2024</div>
+      <div><h3 class="exp-role" data-en="AR Developer" data-fr="Developpeur Realite Augmentee">AR Developer</h3><p class="exp-org">Maghreb Rayonnage</p><p class="exp-desc" data-en="Developed a mobile augmented reality application using Unity and C# that projects 3D shelving models into real-world environments, enabling clients to visualize industrial racking solutions in situ." data-fr="Developpement d'une application mobile de realite augmentee avec Unity et C# projetant des modeles 3D de rayonnage en environnement reel.">Developed a mobile augmented reality application using Unity and C# that projects 3D shelving models into real-world environments, enabling clients to visualize industrial racking solutions in situ.</p><div class="exp-techs"><span class="exp-tech-tag">Unity</span><span class="exp-tech-tag">C#</span><span class="exp-tech-tag">AR</span><span class="exp-tech-tag">3D Modeling</span></div></div>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-date">Apr - Jun 2023</div>
+      <div><h3 class="exp-role" data-en="Full-Stack Developer Assistant (PFE)" data-fr="Assistant Developpeur Full-Stack (PFE)">Full-Stack Developer Assistant (PFE)</h3><p class="exp-org">Sapilog SARL</p><p class="exp-desc" data-en="Built AppFerri: a dual-platform solution with a mobile product catalog (Flutter/PHP) and a web administration panel (HTML, CSS, JS, PHP) for managing app content and data." data-fr="Construction d'AppFerri : solution double-plateforme avec un catalogue mobile (Flutter/PHP) et un panneau d'administration web (HTML, CSS, JS, PHP).">Built AppFerri: a dual-platform solution with a mobile product catalog (Flutter/PHP) and a web administration panel (HTML, CSS, JS, PHP) for managing app content and data.</p><div class="exp-techs"><span class="exp-tech-tag">Flutter</span><span class="exp-tech-tag">PHP</span><span class="exp-tech-tag">JavaScript</span><span class="exp-tech-tag">HTML/CSS</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal"><p class="section-label" data-en="Featured Work" data-fr="Travaux Realises">Featured Work</p><h2 class="section-title" data-en="PROJECTS" data-fr="PROJETS">PROJECTS</h2></div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-img">
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" stroke-width="1"/><rect x="20" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="130" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="240" y="20" width="140" height="60" rx="4" fill="#222"/><rect x="30" y="55" width="12" height="20" fill="#c41e2a" rx="2"/><rect x="48" y="45" width="12" height="30" fill="#c41e2a" rx="2" opacity=".8"/><rect x="66" y="50" width="12" height="25" fill="#c41e2a" rx="2" opacity=".6"/><rect x="84" y="40" width="12" height="35" fill="#c41e2a" rx="2" opacity=".7"/><polyline points="145,65 160,50 175,55 190,40 205,45 220,35" fill="none" stroke="#c41e2a" stroke-width="2"/><text x="310" y="55" fill="#c41e2a" font-family="Bebas Neue" font-size="24" text-anchor="middle">89.3</text><rect x="20" y="95" width="360" height="1" fill="#333"/><rect x="20" y="115" width="360" height="1" fill="#333"/><rect x="20" y="135" width="360" height="1" fill="#333"/><rect x="20" y="155" width="360" height="1" fill="#333"/></svg>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">FootyMetrics</h3>
+        <p class="project-desc" data-en="A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts." data-fr="Application web d'analyse des donnees de performance football. Tableaux de bord pour visualiser les statistiques des joueurs et les metriques d'equipe.">A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts.</p>
+        <div class="project-stack"><span class="project-stack-tag">Python</span><span class="project-stack-tag">Streamlit</span><span class="project-stack-tag">Data Analysis</span><span class="project-stack-tag">Pandas</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-img">
+        <svg viewBox="0 0 400 200"><rect x="130" y="5" width="140" height="190" rx="16" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/><rect x="140" y="25" width="120" height="150" rx="4" fill="#111"/><circle cx="200" cy="60" r="8" fill="none" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="68" x2="200" y2="100" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="80" x2="180" y2="90" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="80" x2="220" y2="90" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="100" x2="185" y2="125" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="100" x2="215" y2="125" stroke="#c41e2a" stroke-width="2"/><circle cx="200" cy="60" r="3" fill="#c41e2a"/><circle cx="200" cy="80" r="3" fill="#c41e2a" opacity=".7"/><circle cx="180" cy="90" r="3" fill="#c41e2a" opacity=".7"/><circle cx="220" cy="90" r="3" fill="#c41e2a" opacity=".7"/><circle cx="200" cy="100" r="3" fill="#c41e2a"/><circle cx="185" cy="125" r="3" fill="#c41e2a" opacity=".7"/><circle cx="215" cy="125" r="3" fill="#c41e2a" opacity=".7"/><rect x="30" y="50" width="80" height="100" rx="6" fill="#1a1a1a" stroke="#333" stroke-width=".5"/><text x="70" y="75" fill="#c41e2a" font-family="monospace" font-size="9" text-anchor="middle">ANGLE: 92</text><text x="70" y="95" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">REPS: 5/10</text><text x="70" y="115" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">SCORE: 87%</text></svg>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Back2Play</h3>
+        <p class="project-desc" data-en="Immersive AR solution for sports rehabilitation. Uses Unity, MediaPipe, and Python to guide patients through post-injury exercises with a 3D avatar, real-time posture feedback, and performance tracking." data-fr="Solution AR immersive pour la reeducation sportive. Utilise Unity, MediaPipe et Python pour guider les patients lors d'exercices post-blessure avec un avatar 3D et un feedback en temps reel.">Immersive AR solution for sports rehabilitation. Uses Unity, MediaPipe, and Python to guide patients through post-injury exercises with a 3D avatar, real-time posture feedback, and performance tracking.</p>
+        <div class="project-stack"><span class="project-stack-tag">Unity</span><span class="project-stack-tag">MediaPipe</span><span class="project-stack-tag">Python</span><span class="project-stack-tag">AR</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-img">
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" stroke-width="1"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160" fill="none" stroke="#c41e2a" stroke-width="2.5" opacity=".8"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160 L360,170 L40,170 Z" fill="#c41e2a" opacity=".08"/><line x1="40" y1="170" x2="360" y2="170" stroke="#444" stroke-width="1"/><line x1="40" y1="40" x2="40" y2="170" stroke="#444" stroke-width="1"/><circle cx="120" cy="138" r="3" fill="#c41e2a" opacity=".5"/><circle cx="180" cy="85" r="3" fill="#c41e2a" opacity=".7"/><circle cx="200" cy="65" r="3" fill="#c41e2a"/><circle cx="250" cy="110" r="3" fill="#c41e2a" opacity=".6"/><circle cx="320" cy="155" r="3" fill="#c41e2a" opacity=".4"/><text x="200" y="30" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">ANOVA / Chi-Square / t-test</text></svg>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title" data-en="Statistical Study - Ed. Tech in Sport" data-fr="Etude Statistique - Tech Educatives en Sport">Statistical Study - Ed. Tech in Sport</h3>
+        <p class="project-desc" data-en="Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests for inferential data processing and hypothesis testing." data-fr="Analyse statistique complete des technologies educatives en sciences du sport. Application des tests Chi-carre, t-test, ANOVA et Fisher.">Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests for inferential data processing and hypothesis testing.</p>
+        <div class="project-stack"><span class="project-stack-tag">R</span><span class="project-stack-tag">Statistics</span><span class="project-stack-tag">ANOVA</span><span class="project-stack-tag">Chi-Square</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="reveal"><p class="section-label" data-en="Credentials" data-fr="Certifications">Credentials</p><h2 class="section-title" data-en="CERTIFICATIONS" data-fr="CERTIFICATIONS">CERTIFICATIONS</h2></div>
+  <div class="cert-grid">
+    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">IBM Full Stack Software Developer</h4><p class="cert-org">IBM</p></div></div>
+    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">CS50 Introduction to Programming With Python</h4><p class="cert-org">Harvard / CS50</p></div></div>
+    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Responsive Web Design</h4><p class="cert-org">freeCodeCamp</p></div></div>
+    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Athlete 365: Sports Coaching</h4><p class="cert-org">International Olympic Committee</p></div></div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership">
+  <div class="reveal"><p class="section-label" data-en="Impact" data-fr="Impact">Impact</p><h2 class="section-title" data-en="LEADERSHIP" data-fr="LEADERSHIP">LEADERSHIP</h2></div>
+  <div class="org-card reveal">
+    <h3 class="org-role">VICE TEAM LEADER</h3>
+    <p class="org-name">Enactus I2S Settat</p>
+    <p class="org-date">Feb 2025 - Jun 2025</p>
+    <p style="margin-top:16px;font-size:.9rem;line-height:1.7;color:var(--gray-light)" data-en="Led collaborative initiatives within Enactus, fostering social entrepreneurship and team coordination. Managed project timelines, mentored team members, and represented the organization in regional competitions." data-fr="Direction d'initiatives collaboratives au sein d'Enactus, favorisant l'entrepreneuriat social et la coordination d'equipe. Gestion des delais de projet et mentorat des membres.">Led collaborative initiatives within Enactus, fostering social entrepreneurship and team coordination. Managed project timelines, mentored team members, and represented the organization in regional competitions.</p>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages">
+  <div class="reveal"><p class="section-label" data-en="Communication" data-fr="Communication">Communication</p><h2 class="section-title" data-en="LANGUAGES" data-fr="LANGUES">LANGUAGES</h2></div>
+  <div class="lang-grid">
+    <div class="lang-card reveal">
+      <h4 class="lang-name" data-en="Arabic" data-fr="Arabe">Arabic</h4>
+      <div class="lang-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36" data-pct="95"/></svg></div>
+      <p class="lang-level" data-en="Native" data-fr="Langue Maternelle">Native</p>
+    </div>
+    <div class="lang-card reveal">
+      <h4 class="lang-name" data-en="French" data-fr="Francais">French</h4>
+      <div class="lang-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36" data-pct="90"/></svg></div>
+      <p class="lang-level" data-en="Fluent" data-fr="Courant">Fluent</p>
+    </div>
+    <div class="lang-card reveal">
+      <h4 class="lang-name" data-en="English" data-fr="Anglais">English</h4>
+      <div class="lang-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36" data-pct="80"/></svg></div>
+      <p class="lang-level" data-en="Professional" data-fr="Professionnel">Professional</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal"><p class="section-label" data-en="Get In Touch" data-fr="Me Contacter">Get In Touch</p><h2 class="section-title" data-en="CONTACT" data-fr="CONTACT">CONTACT</h2></div>
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="contact-info-text">mohamedbalali02@gmail.com</span></div>
+      <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="contact-info-text">+212 618 866 203</span></div>
+      <a href="https://www.linkedin.com/in/mohamed-mondir-balali-315859266/" target="_blank" rel="noopener" class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span class="contact-info-text">LinkedIn</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><p>Mohamed Mondir BALALI &mdash; 2025</p></footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+// ====== CANVAS BACKGROUND ======
+const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight}
+function initP(){particles=[];const c=Math.min(Math.floor(w*h/18000),80);for(let i=0;i<c;i++)particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5})}
+function drawGrid(){ctx.strokeStyle='rgba(196,30,42,.04)';ctx.lineWidth=.5;for(let x=0;x<w;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}}
+function drawP(){const md=120;for(let i=0;i<particles.length;i++){const p=particles[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(196,30,42,.35)';ctx.fill();for(let j=i+1;j<particles.length;j++){const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);if(d<md){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(196,30,42,'+(.12*(1-d/md))+')';ctx.lineWidth=.5;ctx.stroke()}}}}
+function loop(){ctx.clearRect(0,0,w,h);drawGrid();drawP();requestAnimationFrame(loop)}
+resize();initP();loop();
+addEventListener('resize',()=>{resize();initP()});
+
+// ====== ACTIVE SECTION ON SCROLL ======
+const sections=document.querySelectorAll('section'),navLinks=document.querySelectorAll('.sidebar-nav a');
+addEventListener('scroll',()=>{let cur='';sections.forEach(s=>{if(scrollY>=s.offsetTop-200)cur=s.id});navLinks.forEach(a=>a.classList.toggle('active',a.dataset.section===cur))},{passive:true});
+
+// ====== MOBILE SIDEBAR ======
+const sidebar=document.getElementById('sidebar'),overlay=document.getElementById('sidebarOverlay');
+function closeSB(){sidebar.classList.remove('open');overlay.classList.remove('active')}
+document.getElementById('mobileToggle').onclick=()=>{sidebar.classList.toggle('open');overlay.classList.toggle('active')};
+overlay.onclick=closeSB;
+navLinks.forEach(a=>a.addEventListener('click',closeSB));
+
+// ====== SCROLL REVEAL ======
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// ====== SKILL BARS ======
+const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.style.width=e.target.dataset.width+'%'}),{threshold:.3});
+document.querySelectorAll('.skill-bar-fill').forEach(b=>so.observe(b));
+
+// ====== LANGUAGE CIRCLES ======
+const circ=2*Math.PI*36;
+const lo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const pct=parseFloat(e.target.dataset.pct);e.target.style.strokeDashoffset=circ-(circ*pct/100)}}),{threshold:.5});
+document.querySelectorAll('.lang-circle .fill').forEach(c=>lo.observe(c));
+
+// ====== BILINGUAL TOGGLE ======
+let lang='en';
+document.getElementById('langToggle').onclick=()=>{
+  lang=lang==='en'?'fr':'en';
+  document.querySelectorAll('[data-en]').forEach(el=>{el.textContent=el.getAttribute('data-'+lang)});
+  document.querySelectorAll('[data-placeholder-en]').forEach(el=>{el.placeholder=el.getAttribute('data-placeholder-'+lang)});
+  document.documentElement.lang=lang==='en'?'en':'fr';
+};
+
+// ====== THEME TOGGLE ======
+document.getElementById('themeToggle').onclick=()=>{
+  const t=document.documentElement;
+  const isDark=t.getAttribute('data-theme')==='dark';
+  t.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeIcon').innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+};
+
+})();
+</script>
+</body>
+</html>
