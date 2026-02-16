@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mohamed Mondir BALALI | Sport-Tech Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -149,6 +149,10 @@ section{min-height:100vh;padding:80px 60px;position:relative}
 /* CERTIFICATIONS */
 .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .cert-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:24px;display:flex;gap:16px;align-items:flex-start;transition:all var(--ease)}
+a.cert-link,.cert-link{text-decoration:none;color:inherit;cursor:pointer}
+a.cert-link:hover,.cert-link:hover{border-color:var(--red);transform:translateY(-3px);box-shadow:0 8px 24px rgba(196,30,42,.15)}
+a.cert-link:hover .cert-view,.cert-link:hover .cert-view{opacity:1;color:var(--red)}
+.cert-view{display:block;margin-top:8px;font-family:var(--font-cond);font-size:.75rem;font-weight:600;letter-spacing:.5px;color:var(--gray-light);opacity:.5;transition:all var(--ease)}
 .cert-card:hover{border-color:rgba(196,30,42,.2);transform:translateY(-3px)}
 .cert-icon{width:42px;height:42px;flex-shrink:0;background:rgba(196,30,42,.1);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .cert-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.8}
@@ -185,6 +189,32 @@ section{min-height:100vh;padding:80px 60px;position:relative}
 .contact-form input,.contact-form textarea{font-family:var(--font-body);font-size:.9rem;padding:14px 18px;background:var(--black-card);border:1px solid rgba(255,255,255,.08);border-radius:6px;color:var(--white);outline:none;transition:border-color var(--ease)}
 .contact-form input:focus,.contact-form textarea:focus{border-color:var(--red)}
 .contact-form textarea{resize:vertical;min-height:120px}
+
+/* VIDEO PLAY OVERLAY */
+.project-video-wrap{cursor:pointer;position:relative}
+.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;opacity:.9;transition:all var(--ease);filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+.project-video-wrap:hover .play-btn{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+.play-modal{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,10,.95);z-index:5;padding:20px;overflow-y:auto;border-radius:12px 12px 0 0;flex-direction:column}
+.play-modal.active{display:flex}
+.play-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer;z-index:6;line-height:1}
+.play-modal-content{padding-top:10px}
+.play-modal-content h4{font-family:var(--font-cond);font-size:1rem;font-weight:700;color:var(--red);margin-bottom:10px}
+.play-modal-content p{font-size:.8rem;line-height:1.6;color:var(--gray-light);margin-bottom:10px}
+.play-modal-link{color:var(--red)!important;font-family:var(--font-cond);font-weight:600;font-size:.8rem!important;letter-spacing:.5px;border:1px dashed rgba(196,30,42,.4);padding:8px 12px;border-radius:4px;text-align:center;margin-top:6px}
+
+/* FULLSCREEN MODAL (videos & PDFs) */
+.fs-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;justify-content:center;align-items:center;padding:20px;box-sizing:border-box}
+.fs-modal-overlay.active{display:flex}
+.fs-modal-box{position:relative;width:100%;max-width:900px;max-height:90vh;background:#111;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.fs-modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.fs-modal-header h3{font-family:var(--font-cond);font-size:1.1rem;font-weight:700;color:var(--white);margin:0}
+.fs-modal-close{background:none;border:none;color:var(--gray-light);font-size:1.6rem;cursor:pointer;line-height:1;padding:0 4px;transition:color .2s}
+.fs-modal-close:hover{color:var(--red)}
+.fs-modal-body{flex:1;overflow:hidden;min-height:0}
+.fs-modal-body video{width:100%;max-height:calc(90vh - 60px);display:block;background:#000}
+.fs-modal-body iframe{width:100%;height:calc(90vh - 60px);border:none;display:block}
+.fs-modal-desc{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:.82rem;line-height:1.6;color:var(--gray-light);max-height:120px;overflow-y:auto;flex-shrink:0}
+@media(max-width:768px){.fs-modal-box{max-width:100%;border-radius:8px}.fs-modal-body iframe,.fs-modal-body video{height:calc(80vh - 60px)}}
 
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
@@ -249,7 +279,7 @@ section{min-height:100vh;padding:80px 60px;position:relative}
   <div class="hero-content">
     <p class="hero-tag" data-en="Sport-Tech Developer &amp; Digital Innovator" data-fr="Developpeur Sport-Tech &amp; Innovateur Digital">Sport-Tech Developer &amp; Digital Innovator</p>
     <h1 class="hero-name">MOHAMED MONDIR <span class="red">BALALI</span></h1>
-    <p class="hero-sub" data-en="Bridging the gap between sport performance and technology. Specializing in full-stack development, augmented reality, and data-driven solutions for the sports industry." data-fr="Combler le fosse entre la performance sportive et la technologie. Specialise dans le developpement full-stack, la realite augmentee et les solutions basees sur les donnees pour l'industrie du sport.">Bridging the gap between sport performance and technology. Specializing in full-stack development, augmented reality, and data-driven solutions for the sports industry.</p>
+    <p class="hero-sub" data-en="Bridging the gap between sport performance and technology. Specializing in full-stack development, and data-driven solutions for the sports industry." data-fr="Combler le fosse entre la performance sportive et la technologie. Specialisé dans le développement full-stack et les solutions basées sur les données pour l'industrie du sport.">Bridging the gap between sport performance and technology. Specializing in full-stack development, and data-driven solutions for the sports industry.</p>
     <div class="hero-btns">
       <a href="#projects" class="btn btn-primary"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span data-en="View Projects" data-fr="Voir Projets">View Projects</span></a>
       <a href="#contact" class="btn btn-outline"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-en="Contact Me" data-fr="Me Contacter">Contact Me</span></a>
@@ -354,19 +384,37 @@ section{min-height:100vh;padding:80px 60px;position:relative}
 <section id="projects">
   <div class="reveal"><p class="section-label" data-en="Featured Work" data-fr="Travaux Realises">Featured Work</p><h2 class="section-title" data-en="PROJECTS" data-fr="PROJETS">PROJECTS</h2></div>
   <div class="projects-grid">
+        <!-- Squat Analyzer -->
     <div class="project-card reveal">
-      <div class="project-img">
-        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" stroke-width="1"/><rect x="20" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="130" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="240" y="20" width="140" height="60" rx="4" fill="#222"/><rect x="30" y="55" width="12" height="20" fill="#c41e2a" rx="2"/><rect x="48" y="45" width="12" height="30" fill="#c41e2a" rx="2" opacity=".8"/><rect x="66" y="50" width="12" height="25" fill="#c41e2a" rx="2" opacity=".6"/><rect x="84" y="40" width="12" height="35" fill="#c41e2a" rx="2" opacity=".7"/><polyline points="145,65 160,50 175,55 190,40 205,45 220,35" fill="none" stroke="#c41e2a" stroke-width="2"/><text x="310" y="55" fill="#c41e2a" font-family="Bebas Neue" font-size="24" text-anchor="middle">89.3</text><rect x="20" y="95" width="360" height="1" fill="#333"/><rect x="20" y="115" width="360" height="1" fill="#333"/><rect x="20" y="135" width="360" height="1" fill="#333"/><rect x="20" y="155" width="360" height="1" fill="#333"/></svg>
+      <div class="project-img project-video-wrap" onclick="openVideoModal('Squat Analyzer','videos/Squat Analyzer.mp4','Computer vision app analyzing squat technique via YOLOv8-pose. Identifies 17 body joints, computes knee angles, classifies depth, detects symmetry imbalances, and provides real-time coaching feedback.')">
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><circle cx="150" cy="55" r="8" fill="none" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="63" x2="150" y2="95" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="75" x2="130" y2="85" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="75" x2="170" y2="85" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="95" x2="135" y2="120" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="95" x2="165" y2="120" stroke="#00aaff" stroke-width="2"/><circle cx="150" cy="95" r="3" fill="#c41e2a"/><text x="178" y="98" fill="#c41e2a" font-family="monospace" font-size="10">82</text><rect x="230" y="30" width="140" height="55" rx="4" fill="#222"/><polyline points="240,70 260,60 280,50 300,55 320,40 340,45 360,42" fill="none" stroke="#c41e2a" stroke-width="1.5"/><rect x="230" y="100" width="140" height="55" rx="4" fill="#222"/><rect x="245" y="130" width="8" height="15" fill="#00cc88" rx="1"/><rect x="260" y="122" width="8" height="23" fill="#00cc88" rx="1" opacity=".8"/><rect x="275" y="115" width="8" height="30" fill="#00cc88" rx="1" opacity=".6"/><rect x="290" y="125" width="8" height="20" fill="#00cc88" rx="1"/><rect x="305" y="118" width="8" height="27" fill="#00cc88" rx="1"/><text x="80" y="160" fill="#c41e2a" font-family="monospace" font-size="9" text-anchor="middle">DEPTH OK</text></svg>
+        <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div>
       </div>
       <div class="project-body">
-        <h3 class="project-title">FootyMetrics</h3>
-        <p class="project-desc" data-en="A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts." data-fr="Application web d'analyse des donnees de performance football. Tableaux de bord pour visualiser les statistiques des joueurs et les metriques d'equipe.">A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts.</p>
-        <div class="project-stack"><span class="project-stack-tag">Python</span><span class="project-stack-tag">Streamlit</span><span class="project-stack-tag">Data Analysis</span><span class="project-stack-tag">Pandas</span></div>
+        <h3 class="project-title" data-en="Squat Analyzer - Computer Vision" data-fr="Analyseur de Squat - Vision par Ordinateur">Squat Analyzer - Computer Vision</h3>
+        <p class="project-desc" data-en="Real-time squat analysis using YOLOv8 pose estimation with joint angle computation, depth classification, symmetry detection, and automated coaching feedback." data-fr="Analyse de squat en temps reel avec YOLOv8, calcul d'angles articulaires, classification de profondeur et detection de symetrie.">Real-time squat analysis using YOLOv8 pose estimation with joint angle computation, depth classification, symmetry detection, and automated coaching feedback.</p>
+        <div class="project-stack"><span class="project-stack-tag">YOLOv8</span><span class="project-stack-tag">React.js</span><span class="project-stack-tag">FastAPI</span><span class="project-stack-tag">OpenCV</span><span class="project-stack-tag">Python</span></div>
       </div>
     </div>
+    <!-- Aji Tssourte -->
     <div class="project-card reveal">
-      <div class="project-img">
+      <div class="project-img project-video-wrap" onclick="openVideoModal('Aji Tssourte','videos/aji Tsourte.mp4','Digital platform to combat sedentary lifestyles in young adults (18-30). Self-assessment via validated tests, automated personalization engine, guided sessions, safety detection, and adaptive tracking.')">
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="155" y="20" width="90" height="160" rx="12" fill="#222" stroke="#444"/><rect x="163" y="35" width="74" height="120" rx="4" fill="#1a2744"/><circle cx="200" cy="65" r="12" fill="none" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="77" x2="200" y2="105" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="85" x2="185" y2="95" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="85" x2="215" y2="95" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="105" x2="188" y2="125" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="105" x2="212" y2="125" stroke="#3b82f6" stroke-width="1.5"/><text x="200" y="145" fill="#3b82f6" font-family="Bebas Neue" font-size="10" text-anchor="middle">AJI TSSOURTE</text><rect x="30" y="40" width="110" height="50" rx="6" fill="#222"/><text x="85" y="58" fill="#3b82f6" font-family="monospace" font-size="8" text-anchor="middle">Auto-Bilan</text><rect x="40" y="68" width="30" height="4" rx="2" fill="#c41e2a"/><rect x="75" y="68" width="20" height="4" rx="2" fill="#3b82f6"/><rect x="260" y="40" width="110" height="50" rx="6" fill="#222"/><text x="315" y="58" fill="#3b82f6" font-family="monospace" font-size="8" text-anchor="middle">Programme</text><rect x="270" y="68" width="90" height="4" rx="2" fill="#00cc88"/><rect x="260" y="110" width="110" height="50" rx="6" fill="#222"/><text x="315" y="128" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">Progress</text><rect x="270" y="136" width="20" height="16" fill="#c41e2a" rx="1" opacity=".4"/><rect x="295" y="130" width="20" height="22" fill="#c41e2a" rx="1" opacity=".6"/><rect x="320" y="124" width="20" height="28" fill="#c41e2a" rx="1" opacity=".8"/><rect x="345" y="118" width="20" height="34" fill="#c41e2a" rx="1"/></svg>
+        <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Aji Tssourte</h3>
+        <p class="project-desc" data-en="Sport-health platform reducing sedentary behavior through personalized programs, validated assessments, safety detection, and adaptive progress tracking for young adults." data-fr="Plateforme sport-sante reduisant la sedentarite via des programmes personnalises, des evaluations validees et un suivi adaptatif pour les jeunes adultes.">Sport-health platform reducing sedentary behavior through personalized programs, validated assessments, safety detection, and adaptive progress tracking for young adults.</p>
+        <div class="project-stack"><span class="project-stack-tag">UX Design</span><span class="project-stack-tag">Mobile App</span><span class="project-stack-tag">Sport Science</span><span class="project-stack-tag">Figma</span></div>
+      </div>
+    </div>
+  
+   
+    <!-- Back2Play -->
+    <div class="project-card reveal">
+      <div class="project-img project-video-wrap" onclick="openVideoModal('Back2Play','videos/Back2play.mp4','Immersive AR solution for sports rehabilitation using Unity, MediaPipe, and Python. Guides patients through exercises with a 3D avatar, real-time posture feedback, and performance tracking.')">
         <svg viewBox="0 0 400 200"><rect x="130" y="5" width="140" height="190" rx="16" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/><rect x="140" y="25" width="120" height="150" rx="4" fill="#111"/><circle cx="200" cy="60" r="8" fill="none" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="68" x2="200" y2="100" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="80" x2="180" y2="90" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="80" x2="220" y2="90" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="100" x2="185" y2="125" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="100" x2="215" y2="125" stroke="#c41e2a" stroke-width="2"/><circle cx="200" cy="60" r="3" fill="#c41e2a"/><circle cx="200" cy="80" r="3" fill="#c41e2a" opacity=".7"/><circle cx="180" cy="90" r="3" fill="#c41e2a" opacity=".7"/><circle cx="220" cy="90" r="3" fill="#c41e2a" opacity=".7"/><circle cx="200" cy="100" r="3" fill="#c41e2a"/><circle cx="185" cy="125" r="3" fill="#c41e2a" opacity=".7"/><circle cx="215" cy="125" r="3" fill="#c41e2a" opacity=".7"/><rect x="30" y="50" width="80" height="100" rx="6" fill="#1a1a1a" stroke="#333" stroke-width=".5"/><text x="70" y="75" fill="#c41e2a" font-family="monospace" font-size="9" text-anchor="middle">ANGLE: 92</text><text x="70" y="95" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">REPS: 5/10</text><text x="70" y="115" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">SCORE: 87%</text></svg>
+        <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div>
       </div>
       <div class="project-body">
         <h3 class="project-title">Back2Play</h3>
@@ -374,14 +422,52 @@ section{min-height:100vh;padding:80px 60px;position:relative}
         <div class="project-stack"><span class="project-stack-tag">Unity</span><span class="project-stack-tag">MediaPipe</span><span class="project-stack-tag">Python</span><span class="project-stack-tag">AR</span></div>
       </div>
     </div>
+    <!-- AppFerri -->
     <div class="project-card reveal">
-      <div class="project-img">
-        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" stroke-width="1"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160" fill="none" stroke="#c41e2a" stroke-width="2.5" opacity=".8"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160 L360,170 L40,170 Z" fill="#c41e2a" opacity=".08"/><line x1="40" y1="170" x2="360" y2="170" stroke="#444" stroke-width="1"/><line x1="40" y1="40" x2="40" y2="170" stroke="#444" stroke-width="1"/><circle cx="120" cy="138" r="3" fill="#c41e2a" opacity=".5"/><circle cx="180" cy="85" r="3" fill="#c41e2a" opacity=".7"/><circle cx="200" cy="65" r="3" fill="#c41e2a"/><circle cx="250" cy="110" r="3" fill="#c41e2a" opacity=".6"/><circle cx="320" cy="155" r="3" fill="#c41e2a" opacity=".4"/><text x="200" y="30" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">ANOVA / Chi-Square / t-test</text></svg>
+      <div class="project-img project-video-wrap" onclick="openVideoModal('AppFerri - Droguerie Ferri','videos/AppFerri.mp4','A platform solution built for Sapilog SARL: a Flutter mobile product catalog for Droguerie Ferri customers with registration, product browsing, and ordering.')">
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="145" y="15" width="80" height="150" rx="10" fill="#222" stroke="#444" stroke-width="1"/><rect x="152" y="28" width="66" height="110" rx="3" fill="#e8e8e8"/><text x="185" y="55" fill="#333" font-family="Bebas Neue" font-size="7" text-anchor="middle">Droguerie</text><text x="185" y="67" fill="#333" font-family="Bebas Neue" font-size="10" text-anchor="middle">FERRI</text><rect x="160" y="80" width="50" height="6" rx="2" fill="#ccc"/><rect x="160" y="92" width="50" height="6" rx="2" fill="#ccc"/><rect x="160" y="104" width="50" height="6" rx="2" fill="#ccc"/><rect x="167" y="118" width="36" height="12" rx="3" fill="#1a8a6a"/><text x="185" y="127" fill="#fff" font-family="monospace" font-size="6" text-anchor="middle">valider</text><rect x="20" y="30" width="110" height="70" rx="6" fill="#222"/><rect x="28" y="38" width="94" height="10" rx="2" fill="#333"/><text x="75" y="46" fill="#888" font-family="monospace" font-size="6" text-anchor="middle">Gestion des produits</text><rect x="28" y="54" width="94" height="4" rx="1" fill="#444"/><rect x="28" y="62" width="70" height="4" rx="1" fill="#444"/><rect x="28" y="70" width="94" height="4" rx="1" fill="#444"/><rect x="28" y="78" width="50" height="4" rx="1" fill="#444"/><rect x="28" y="86" width="94" height="4" rx="1" fill="#c41e2a" opacity=".3"/><rect x="260" y="30" width="110" height="70" rx="6" fill="#222"/><rect x="268" y="38" width="94" height="10" rx="2" fill="#333"/><text x="315" y="46" fill="#888" font-family="monospace" font-size="6" text-anchor="middle">Gestion utilisateurs</text><rect x="268" y="54" width="94" height="4" rx="1" fill="#444"/><rect x="268" y="62" width="70" height="4" rx="1" fill="#444"/><rect x="268" y="70" width="94" height="4" rx="1" fill="#444"/><rect x="345" y="78" width="16" height="8" rx="2" fill="#c41e2a" opacity=".6"/><rect x="325" y="78" width="16" height="8" rx="2" fill="#e8a000" opacity=".6"/><text x="200" y="185" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">Flutter + PHP Admin Panel</text></svg>
+        <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">AppFerri</h3>
+        <p class="project-desc" data-en="Dual-platform solution for Droguerie Ferri: a Flutter mobile product catalog with user registration, browsing, and ordering." data-fr="Solution double-plateforme pour Droguerie Ferri : catalogue mobile Flutter avec inscription, navigation et commande.">Dual-platform solution for Droguerie Ferri: a Flutter mobile product catalog with user registration, browsing, and ordering.</p>
+        <div class="project-stack"><span class="project-stack-tag">Flutter</span><span class="project-stack-tag">PHP</span><span class="project-stack-tag">MySQL</span></div>
+      </div>
+    </div>
+     <!-- FootyMetrics -->
+    <div class="project-card reveal">
+      <div class="project-img project-video-wrap" >
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="20" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="130" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="240" y="20" width="140" height="60" rx="4" fill="#222"/><rect x="30" y="55" width="12" height="20" fill="#c41e2a" rx="2"/><rect x="48" y="45" width="12" height="30" fill="#c41e2a" rx="2" opacity=".8"/><rect x="66" y="50" width="12" height="25" fill="#c41e2a" rx="2" opacity=".6"/><rect x="84" y="40" width="12" height="35" fill="#c41e2a" rx="2" opacity=".7"/><polyline points="145,65 160,50 175,55 190,40 205,45 220,35" fill="none" stroke="#c41e2a" stroke-width="2"/><text x="310" y="55" fill="#c41e2a" font-family="Bebas Neue" font-size="24" text-anchor="middle">89.3</text><rect x="20" y="95" width="360" height="1" fill="#333"/><rect x="20" y="115" width="360" height="1" fill="#333"/><rect x="20" y="135" width="360" height="1" fill="#333"/><rect x="20" y="155" width="360" height="1" fill="#333"/></svg>
+        <!-- <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div> -->
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">FootyMetrics</h3>
+        <p class="project-desc" data-en="A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts." data-fr="Application web d'analyse des donnees de performance football. Tableaux de bord pour visualiser les statistiques des joueurs et les metriques d'equipe.">A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts.</p>
+        <div class="project-stack"><span class="project-stack-tag">Python</span><span class="project-stack-tag">Streamlit</span><span class="project-stack-tag">Data Analysis</span><span class="project-stack-tag">Pandas</span></div>
+      </div>
+    </div>
+    <!-- Statistical Study -->
+    <div class="project-card reveal">
+      <div class="project-img project-video-wrap" >
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160" fill="none" stroke="#c41e2a" stroke-width="2.5" opacity=".8"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160 L360,170 L40,170 Z" fill="#c41e2a" opacity=".08"/><line x1="40" y1="170" x2="360" y2="170" stroke="#444"/><line x1="40" y1="40" x2="40" y2="170" stroke="#444"/><circle cx="120" cy="138" r="3" fill="#c41e2a" opacity=".5"/><circle cx="180" cy="85" r="3" fill="#c41e2a" opacity=".7"/><circle cx="200" cy="65" r="3" fill="#c41e2a"/><circle cx="250" cy="110" r="3" fill="#c41e2a" opacity=".6"/><circle cx="320" cy="155" r="3" fill="#c41e2a" opacity=".4"/><text x="200" y="30" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">ANOVA / Chi-Square / t-test</text></svg>
+        <!-- <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div> -->
       </div>
       <div class="project-body">
         <h3 class="project-title" data-en="Statistical Study - Ed. Tech in Sport" data-fr="Etude Statistique - Tech Educatives en Sport">Statistical Study - Ed. Tech in Sport</h3>
         <p class="project-desc" data-en="Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests for inferential data processing and hypothesis testing." data-fr="Analyse statistique complete des technologies educatives en sciences du sport. Application des tests Chi-carre, t-test, ANOVA et Fisher.">Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests for inferential data processing and hypothesis testing.</p>
         <div class="project-stack"><span class="project-stack-tag">R</span><span class="project-stack-tag">Statistics</span><span class="project-stack-tag">ANOVA</span><span class="project-stack-tag">Chi-Square</span></div>
+      </div>
+    </div>
+    <!-- Clasico Prediction -->
+    <div class="project-card reveal">
+      <div class="project-img project-video-wrap" >
+        <svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="30" y="30" width="160" height="80" rx="6" fill="#222"/><rect x="210" y="30" width="160" height="80" rx="6" fill="#222"/><text x="110" y="60" fill="#004d98" font-family="Bebas Neue" font-size="16" text-anchor="middle">FCB</text><text x="290" y="60" fill="#fff" font-family="Bebas Neue" font-size="16" text-anchor="middle">RMA</text><text x="110" y="85" fill="#c41e2a" font-family="monospace" font-size="11" text-anchor="middle">76.47%</text><text x="290" y="85" fill="#c41e2a" font-family="monospace" font-size="11" text-anchor="middle">52.94%</text><text x="200" y="145" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">P(V|Home) via Bayes</text><rect x="80" y="155" width="240" height="6" rx="3" fill="#333"/><rect x="80" y="155" width="180" height="6" rx="3" fill="#c41e2a" opacity=".6"/></svg>
+        <!-- <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div> -->
+      </div>
+      <div class="project-body">
+        <h3 class="project-title" data-en="Clasico Winner Prediction (Bayes)" data-fr="Prediction du Vainqueur du Clasico (Bayes)">Clasico Winner Prediction (Bayes)</h3>
+        <p class="project-desc" data-en="Bayesian probability model predicting the next Clasico outcome using La Liga 2024-2025 statistics, analyzing home/away performance for FC Barcelona and Real Madrid." data-fr="Modele bayesien pour predire le Clasico en analysant les performances domicile/exterieur de Barcelone et du Real Madrid.">Bayesian probability model predicting the next Clasico outcome using La Liga 2024-2025 statistics, analyzing home/away performance for FC Barcelona and Real Madrid.</p>
+        <div class="project-stack"><span class="project-stack-tag">Bayes</span><span class="project-stack-tag">Statistics</span><span class="project-stack-tag">Football Analytics</span></div>
       </div>
     </div>
   </div>
@@ -391,10 +477,25 @@ section{min-height:100vh;padding:80px 60px;position:relative}
 <section id="certifications">
   <div class="reveal"><p class="section-label" data-en="Credentials" data-fr="Certifications">Credentials</p><h2 class="section-title" data-en="CERTIFICATIONS" data-fr="CERTIFICATIONS">CERTIFICATIONS</h2></div>
   <div class="cert-grid">
-    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">IBM Full Stack Software Developer</h4><p class="cert-org">IBM</p></div></div>
-    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">CS50 Introduction to Programming With Python</h4><p class="cert-org">Harvard / CS50</p></div></div>
-    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Responsive Web Design</h4><p class="cert-org">freeCodeCamp</p></div></div>
-    <div class="cert-card reveal"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Athlete 365: Sports Coaching</h4><p class="cert-org">International Olympic Committee</p></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('CERTIFICATION OF COMPLETION : WORKSHOP','certificates/Workshop.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">CERTIFICATION OF COMPLETION : WORKSHOP</h4><p class="cert-org">Catapult</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('IBM Full Stack Software Developer','certificates/Coursera IBM Full Stack Software.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">IBM Full Stack Software Developer</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Developing AI Applications with Python and Flask','certificates/Coursera Developing AI Applications with Python and Flask.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Developing AI Applications with Python and Flask</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Developing Back-End Apps with Node.js and Express','certificates/Coursera Developing Back-End Apps with Node.js and Express.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Developing Back-End Apps with Node.js and Express</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Developing Front-End Apps with React','certificates/Coursera Developing Front-End Apps with React.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Developing Front-End Apps with React</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Django Application Development with SQL','certificates/Coursera Django Application Development with SQL and.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Django Application Development with SQL</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Django Web Framework','certificates/Coursera Django Web Framework.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Django Web Framework</h4><p class="cert-org">Coursera / Meta</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Getting Started with Git and GitHub','certificates/Coursera Getting Started with Git and GitHub.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Getting Started with Git and GitHub</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Linux Commands and Shell Scripting','certificates/Coursera Hands-on Introduction to Linux Commands and Shell Scripting.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Hands-on Introduction to Linux Commands and Shell Scripting</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Introduction to Cloud Computing','certificates/Coursera Introduction to Cloud Computing.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Introduction to Cloud Computing</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Introduction to Software Engineering','certificates/Coursera Introduction to Software Engineering.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Introduction to Software Engineering</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Web Development with HTML, CSS, JavaScript','certificates/Coursera Introduction to Web Development with HTML, CSS, JavaScript.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Introduction to Web Development with HTML, CSS, JavaScript</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Programming in Python','certificates/Coursera Pragramming in Python by Meta.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Programming in Python</h4><p class="cert-org">Coursera / Meta</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Python for Data Science, AI &amp; Development','certificates/Coursera Python for Data Science, AI & Development.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Python for Data Science, AI &amp; Development</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('The Data Scientist\'s Toolbox','certificates/Coursera The Data Scientists ToolBox.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">The Data Scientist's Toolbox</h4><p class="cert-org">Coursera / Johns Hopkins</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>    
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Algebra and Differential Calculus for Data Science','certificates/Coursera Algebra and Differential Calculus for Data Science.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Algebra and Differential Calculus for Data Science</h4><p class="cert-org">Coursera</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('CS50 Introduction to Programming With Python','certificates/CS50P.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">CS50 Introduction to Programming With Python</h4><p class="cert-org">Harvard / CS50</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Responsive Web Design','certificates/freecodecamp Responsive web design certificate.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Responsive Web Design</h4><p class="cert-org">freeCodeCamp</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
+    <div class="cert-card cert-link reveal" onclick="openPdfModal('Athlete 365: Sports Coaching','certificates/Sport Coaching Certificate.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Athlete 365: Sports Coaching</h4><p class="cert-org">International Olympic Committee</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
   </div>
 </section>
 
@@ -443,8 +544,20 @@ section{min-height:100vh;padding:80px 60px;position:relative}
   </div>
 </section>
 
-<footer class="footer"><p>Mohamed Mondir BALALI &mdash; 2025</p></footer>
+<footer class="footer"><p>Mohamed Mondir BALALI &mdash; 2026</p></footer>
 </main>
+
+<!-- FULLSCREEN MODAL -->
+<div class="fs-modal-overlay" id="fsModal" onclick="closeFsModal(event)">
+  <div class="fs-modal-box" onclick="event.stopPropagation()">
+    <div class="fs-modal-header">
+      <h3 id="fsModalTitle"></h3>
+      <button class="fs-modal-close" onclick="closeFsModal()">&times;</button>
+    </div>
+    <div class="fs-modal-body" id="fsModalBody"></div>
+    <div class="fs-modal-desc" id="fsModalDesc"></div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -503,6 +616,35 @@ document.getElementById('themeToggle').onclick=()=>{
 };
 
 })();
+
+// ====== FULLSCREEN MODAL FUNCTIONS ======
+function openVideoModal(title, videoSrc, desc) {
+  const modal = document.getElementById('fsModal');
+  document.getElementById('fsModalTitle').textContent = title;
+  document.getElementById('fsModalBody').innerHTML = '<video controls autoplay><source src="' + videoSrc + '" type="video/mp4">Your browser does not support video.</video>';
+  document.getElementById('fsModalDesc').textContent = desc;
+  document.getElementById('fsModalDesc').style.display = desc ? 'block' : 'none';
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function openPdfModal(title, pdfSrc) {
+  const modal = document.getElementById('fsModal');
+  document.getElementById('fsModalTitle').textContent = title;
+  document.getElementById('fsModalBody').innerHTML = '<iframe src="' + pdfSrc + '" title="' + title + '"></iframe>';
+  document.getElementById('fsModalDesc').style.display = 'none';
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeFsModal(e) {
+  if (e && e.target !== document.getElementById('fsModal')) return;
+  const modal = document.getElementById('fsModal');
+  modal.classList.remove('active');
+  const v = modal.querySelector('video');
+  if (v) v.pause();
+  document.getElementById('fsModalBody').innerHTML = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeFsModal(); });
 </script>
 </body>
 </html>
