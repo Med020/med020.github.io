@@ -1,523 +1,2650 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mohamed Mondir BALALI | Sport-Tech Portfolio</title>
-<link rel="icon" href="icon2.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --black:#0a0a0a;--black-light:#111;--black-card:#161616;
-  --red:#c41e2a;--red-bright:#e63240;--red-dark:#8b1520;
-  --white:#f0f0f0;--gray:#888;--gray-dark:#333;--gray-light:#ccc;
-  --sidebar-w:72px;--sidebar-exp:220px;
-  --font-display:'Bebas Neue',sans-serif;
-  --font-body:'Barlow',sans-serif;
-  --font-cond:'Barlow Condensed',sans-serif;
-  --ease:0.35s cubic-bezier(.4,0,.2,1);
-}
-[data-theme="light"]{
-  --black:#f5f5f5;--black-light:#eaeaea;--black-card:#fff;
-  --white:#111;--gray:#666;--gray-dark:#ccc;--gray-light:#444;
-}
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:var(--font-body);background:var(--black);color:var(--white);overflow-x:hidden;transition:background var(--ease),color var(--ease)}
-a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--black)}
-::-webkit-scrollbar-thumb{background:var(--red);border-radius:3px}
-#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.3}
-.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:#050505;border-right:1px solid rgba(196,30,42,.15);display:flex;flex-direction:column;align-items:center;padding:20px 0;z-index:1000;transition:width var(--ease);overflow:hidden}
-[data-theme="light"] .sidebar{background:#1a1a1a}
-.sidebar:hover{width:var(--sidebar-exp)}
-.sidebar-logo{width:40px;height:40px;margin-bottom:30px;flex-shrink:0}
-.sidebar-nav{display:flex;flex-direction:column;gap:4px;width:100%;flex:1;padding:0 8px}
-.sidebar-nav a{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:8px;color:var(--gray);font-family:var(--font-cond);font-size:.85rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;overflow:hidden;transition:all var(--ease);position:relative}
-.sidebar-nav a::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:0;background:var(--red);border-radius:2px;transition:height var(--ease)}
-.sidebar-nav a:hover,.sidebar-nav a.active{color:#fff;background:rgba(196,30,42,.08)}
-.sidebar-nav a.active::before{height:20px}
-.sidebar-nav a svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8}
-.sidebar-nav a span{opacity:0;transition:opacity var(--ease)}
-.sidebar:hover .sidebar-nav a span{opacity:1}
-.sidebar-controls{display:flex;flex-direction:column;gap:8px;width:100%;padding:0 8px;margin-top:auto}
-.sidebar-controls button{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:8px;background:0;border:0;color:var(--gray);font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;overflow:hidden;transition:all var(--ease)}
-.sidebar-controls button:hover{color:#fff;background:rgba(196,30,42,.08)}
-.sidebar-controls button svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8}
-.sidebar-controls button span{opacity:0;transition:opacity var(--ease)}
-.sidebar:hover .sidebar-controls button span{opacity:1}
-.mobile-toggle{display:none;position:fixed;top:16px;left:16px;z-index:1100;width:44px;height:44px;background:#050505;border:1px solid rgba(196,30,42,.3);border-radius:8px;cursor:pointer;align-items:center;justify-content:center}
-.mobile-toggle svg{stroke:#fff;width:22px;height:22px;fill:none;stroke-width:2}
-.sidebar-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:999}
-.sidebar-overlay.active{display:block}
-.main{margin-left:var(--sidebar-w);position:relative;z-index:1}
-section{min-height:100vh;padding:80px 60px;position:relative}
-.section-label{font-family:var(--font-display);font-size:.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:12px}
-.section-label::before{content:'';width:30px;height:1px;background:var(--red)}
-.section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:2px;line-height:1;margin-bottom:40px}
-#home{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px 60px;overflow:hidden}
-.hero-content{max-width:800px;position:relative;z-index:2}
-.hero-tag{font-family:var(--font-cond);font-size:.9rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:20px;opacity:0;transform:translateY(20px);animation:fadeUp .8s .3s forwards}
-.hero-name{font-family:var(--font-display);font-size:clamp(3.5rem,8vw,7rem);letter-spacing:3px;line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(30px);animation:fadeUp .8s .5s forwards}
-.hero-name .red{color:var(--red)}
-.hero-sub{font-family:var(--font-cond);font-size:clamp(1rem,2vw,1.4rem);font-weight:400;color:var(--gray);line-height:1.6;margin-bottom:40px;max-width:600px;opacity:0;transform:translateY(20px);animation:fadeUp .8s .7s forwards}
-.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;transform:translateY(20px);animation:fadeUp .8s .9s forwards}
-.hero-line{position:absolute;right:10%;top:15%;width:1px;height:70%;background:linear-gradient(to bottom,transparent,var(--red),transparent);opacity:.2;z-index:2}
-.hero-line::after{content:'';position:absolute;top:50%;left:-4px;width:9px;height:9px;background:var(--red);border-radius:50%;animation:pulse 2s ease-in-out infinite}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
-.btn{font-family:var(--font-cond);font-weight:600;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;border:none;border-radius:4px;cursor:pointer;transition:all var(--ease);display:inline-flex;align-items:center;gap:10px}
-.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-.btn-primary{background:var(--red);color:#fff}
-.btn-primary:hover{background:var(--red-bright);transform:translateY(-2px);box-shadow:0 8px 30px rgba(196,30,42,.3)}
-.btn-outline{background:0;color:var(--white);border:1px solid var(--gray-dark)}
-.btn-outline:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
-.about-text{font-size:1rem;line-height:1.8;color:var(--gray-light)}
-.about-text p{margin-bottom:20px}
-.timeline{position:relative;padding-left:30px}
-.timeline::before{content:'';position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,var(--red),var(--gray-dark))}
-.timeline-item{position:relative;margin-bottom:40px}
-.timeline-item::before{content:'';position:absolute;left:-34px;top:6px;width:10px;height:10px;background:var(--red);border-radius:50%;border:2px solid var(--black)}
-.timeline-date{font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:2px;color:var(--red);text-transform:uppercase;margin-bottom:6px}
-.timeline-title{font-family:var(--font-cond);font-size:1.15rem;font-weight:700;margin-bottom:4px}
-.timeline-sub{font-size:.85rem;color:var(--gray);font-style:italic}
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
-.skill-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:30px;transition:all var(--ease);position:relative;overflow:hidden}
-.skill-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--red),transparent);opacity:0;transition:opacity var(--ease)}
-.skill-card:hover::before{opacity:1}
-.skill-card:hover{transform:translateY(-4px);border-color:rgba(196,30,42,.2)}
-.skill-card-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.skill-card-header svg{width:24px;height:24px;stroke:var(--red);fill:none;stroke-width:1.8}
-.skill-card-header h3{font-family:var(--font-cond);font-size:1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.skill-item{margin-bottom:16px}
-.skill-item-header{display:flex;justify-content:space-between;margin-bottom:6px}
-.skill-item-name{font-family:var(--font-cond);font-size:.85rem;font-weight:600;color:var(--gray-light)}
-.skill-item-pct{font-family:var(--font-cond);font-size:.8rem;color:var(--red);font-weight:600}
-.skill-bar{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.skill-bar-fill{height:100%;background:linear-gradient(90deg,var(--red-dark),var(--red));border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-.soft-skills-tags{display:flex;flex-wrap:wrap;gap:8px}
-.soft-tag{font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:.5px;padding:8px 16px;border:1px solid rgba(196,30,42,.3);border-radius:20px;color:var(--gray-light);transition:all var(--ease)}
-.soft-tag:hover{background:var(--red);color:#fff;border-color:var(--red)}
-.exp-list{display:flex;flex-direction:column;gap:32px}
-.exp-card{display:grid;grid-template-columns:180px 1fr;gap:30px;padding:30px;background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;transition:all var(--ease);position:relative}
-.exp-card:hover{border-color:rgba(196,30,42,.2);transform:translateX(4px)}
-.exp-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--red);border-radius:2px 0 0 2px;opacity:0;transition:opacity var(--ease)}
-.exp-card:hover::before{opacity:1}
-.exp-date{font-family:var(--font-cond);font-size:.8rem;font-weight:600;letter-spacing:1px;color:var(--red);text-transform:uppercase;padding-top:4px}
-.exp-role{font-family:var(--font-cond);font-size:1.2rem;font-weight:700;margin-bottom:4px}
-.exp-org{font-family:var(--font-cond);font-size:.9rem;color:var(--gray);margin-bottom:12px}
-.exp-desc{font-size:.9rem;line-height:1.7;color:var(--gray-light)}
-.exp-techs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.exp-tech-tag{font-family:var(--font-cond);font-size:.7rem;font-weight:600;letter-spacing:.5px;padding:4px 10px;background:rgba(196,30,42,.1);border-radius:3px;color:var(--red)}
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:30px}
-.project-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;overflow:hidden;transition:all var(--ease)}
-.project-card:hover{transform:translateY(-6px);border-color:rgba(196,30,42,.25);box-shadow:0 20px 50px rgba(0,0,0,.4)}
-.project-img{width:100%;height:200px;background:linear-gradient(135deg,var(--black-light),var(--gray-dark));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.project-img svg{width:80%;height:80%;opacity:.6}
-.project-img::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:40%;background:linear-gradient(to top,var(--black-card),transparent)}
-.project-body{padding:24px}
-.project-title{font-family:var(--font-cond);font-size:1.15rem;font-weight:700;margin-bottom:8px}
-.project-desc{font-size:.85rem;line-height:1.7;color:var(--gray);margin-bottom:16px}
-.project-stack{display:flex;flex-wrap:wrap;gap:6px}
-.project-stack-tag{font-family:var(--font-cond);font-size:.7rem;font-weight:600;padding:4px 10px;border:1px solid rgba(196,30,42,.25);border-radius:3px;color:var(--red)}
-.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.cert-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:24px;display:flex;gap:16px;align-items:flex-start;transition:all var(--ease)}
-a.cert-link,.cert-link{text-decoration:none;color:inherit;cursor:pointer}
-a.cert-link:hover,.cert-link:hover{border-color:var(--red);transform:translateY(-3px);box-shadow:0 8px 24px rgba(196,30,42,.15)}
-a.cert-link:hover .cert-view,.cert-link:hover .cert-view{opacity:1;color:var(--red)}
-.cert-view{display:block;margin-top:8px;font-family:var(--font-cond);font-size:.75rem;font-weight:600;letter-spacing:.5px;color:var(--gray-light);opacity:.5;transition:all var(--ease)}
-.cert-card:hover{border-color:rgba(196,30,42,.2);transform:translateY(-3px)}
-.cert-icon{width:42px;height:42px;flex-shrink:0;background:rgba(196,30,42,.1);border-radius:8px;display:flex;align-items:center;justify-content:center}
-.cert-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.8}
-.cert-title{font-family:var(--font-cond);font-size:.95rem;font-weight:700;margin-bottom:4px}
-.cert-org{font-size:.8rem;color:var(--gray)}
-.org-card{background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:30px;max-width:500px;transition:all var(--ease)}
-.org-card:hover{border-color:rgba(196,30,42,.2)}
-.org-role{font-family:var(--font-display);font-size:1.8rem;margin-bottom:4px}
-.org-name{font-family:var(--font-cond);font-weight:600;color:var(--red);margin-bottom:4px}
-.org-date{font-size:.8rem;color:var(--gray)}
-.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;max-width:700px}
-.lang-card{text-align:center;padding:30px 20px;background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:10px;transition:all var(--ease)}
-.lang-card:hover{border-color:rgba(196,30,42,.2);transform:translateY(-3px)}
-.lang-name{font-family:var(--font-cond);font-size:1rem;font-weight:700;margin-bottom:12px}
-.lang-circle{width:80px;height:80px;margin:0 auto 12px}
-.lang-circle svg{width:80px;height:80px;transform:rotate(-90deg)}
-.lang-circle circle{fill:none;stroke-width:4}
-.lang-circle .bg{stroke:rgba(255,255,255,.06)}
-.lang-circle .fill{stroke:var(--red);stroke-dasharray:226;stroke-dashoffset:226;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
-.lang-level{font-family:var(--font-cond);font-size:.75rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase}
-#contact{min-height:80vh}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
-.contact-info-item{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:16px;background:var(--black-card);border:1px solid rgba(255,255,255,.05);border-radius:8px;transition:all var(--ease)}
-.contact-info-item:hover{border-color:rgba(196,30,42,.2)}
-.contact-info-item svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:1.8;flex-shrink:0}
-.contact-info-text{font-family:var(--font-cond);font-size:.9rem;font-weight:500;color:var(--gray-light)}
-.contact-form{display:flex;flex-direction:column;gap:16px}
-.contact-form input,.contact-form textarea{font-family:var(--font-body);font-size:.9rem;padding:14px 18px;background:var(--black-card);border:1px solid rgba(255,255,255,.08);border-radius:6px;color:var(--white);outline:none;transition:border-color var(--ease)}
-.contact-form input:focus,.contact-form textarea:focus{border-color:var(--red)}
-.contact-form textarea{resize:vertical;min-height:120px}
-.project-video-wrap{cursor:pointer;position:relative}
-.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;opacity:.9;transition:all var(--ease);filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
-.project-video-wrap:hover .play-btn{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
-.fs-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;justify-content:center;align-items:center;padding:20px;box-sizing:border-box}
-.fs-modal-overlay.active{display:flex}
-.fs-modal-box{position:relative;width:100%;max-width:900px;max-height:90vh;background:#111;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-.fs-modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
-.fs-modal-header h3{font-family:var(--font-cond);font-size:1.1rem;font-weight:700;color:var(--white);margin:0}
-.fs-modal-close{background:none;border:none;color:var(--gray-light);font-size:1.6rem;cursor:pointer;line-height:1;padding:0 4px;transition:color .2s}
-.fs-modal-close:hover{color:var(--red)}
-.fs-modal-body{flex:1;overflow:hidden;min-height:0}
-.fs-modal-body video{width:100%;max-height:calc(90vh - 60px);display:block;background:#000}
-.fs-modal-body iframe{width:100%;height:calc(90vh - 60px);border:none;display:block}
-.fs-modal-desc{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:.82rem;line-height:1.6;color:var(--gray-light);max-height:120px;overflow-y:auto;flex-shrink:0}
-@media(max-width:768px){.fs-modal-box{max-width:100%;border-radius:8px}.fs-modal-body iframe,.fs-modal-body video{height:calc(80vh - 60px)}}
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.footer{text-align:center;padding:30px;font-size:.75rem;color:var(--gray);font-family:var(--font-cond);letter-spacing:1px;border-top:1px solid rgba(255,255,255,.05)}
-@media(max-width:1024px){
-  section{padding:60px 40px}
-  .about-grid,.contact-grid{grid-template-columns:1fr}
-  .exp-card{grid-template-columns:1fr}
-  .projects-grid{grid-template-columns:1fr}
-}
-@media(max-width:768px){
-  .sidebar{transform:translateX(-100%);width:var(--sidebar-exp)!important;transition:transform var(--ease)}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar .sidebar-nav a span,.sidebar .sidebar-controls button span{opacity:1!important}
-  .mobile-toggle{display:flex}
-  .main{margin-left:0}
-  section{padding:60px 24px}
-  .hero-line{display:none}
-  .skills-grid{grid-template-columns:1fr}
-}
 
-/* ====== FULL-PAGE FLAME EFFECT ====== */
-#flame-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-[data-theme="light"] #flame-canvas{opacity:.15}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohamed Mondir BALALI Portfolio</title>
+  <link rel="icon" href="icon3.png" type="image/png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --black-light: #111;
+      --black-card: #161616;
+      --red: #c41e2a;
+      --red-bright: #e63240;
+      --red-dark: #8b1520;
+      --white: #f0f0f0;
+      --gray: #888;
+      --gray-dark: #333;
+      --gray-light: #ccc;
+      --sidebar-w: 72px;
+      --sidebar-exp: 220px;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-cond: 'Barlow Condensed', sans-serif;
+      --ease: 0.35s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    [data-theme="light"] {
+      --black: #f5f5f5;
+      --black-light: #eaeaea;
+      --black-card: #fff;
+      --white: #111;
+      --gray: #666;
+      --gray-dark: #ccc;
+      --gray-light: #444;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      transition: background var(--ease), color var(--ease)
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    img {
+      max-width: 100%;
+      display: block
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--black)
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--red);
+      border-radius: 3px
+    }
+
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .3
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: #050505;
+      border-right: 1px solid rgba(196, 30, 42, .15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      z-index: 1000;
+      transition: width var(--ease);
+      overflow: hidden
+    }
+
+    [data-theme="light"] .sidebar {
+      background: #1a1a1a
+    }
+
+    .sidebar:hover {
+      width: var(--sidebar-exp)
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 0 16px;
+      margin-bottom: 30px;
+      box-sizing: border-box;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo img {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      color: var(--white);
+      opacity: 0;
+      white-space: nowrap;
+      transition: all var(--ease);
+      transform: translateX(-10px);
+    }
+
+    .sidebar:hover .sidebar-logo-text,
+    .sidebar.open .sidebar-logo-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      flex: 1;
+      padding: 0 8px
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--gray);
+      font-family: var(--font-cond);
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: all var(--ease);
+      position: relative
+    }
+
+    .sidebar-nav a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: var(--red);
+      border-radius: 2px;
+      transition: height var(--ease)
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: #fff;
+      background: rgba(196, 30, 42, .08)
+    }
+
+    .sidebar-nav a.active::before {
+      height: 20px
+    }
+
+    .sidebar-nav a svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .sidebar-nav a span {
+      opacity: 0;
+      transition: opacity var(--ease)
+    }
+
+    .sidebar:hover .sidebar-nav a span {
+      opacity: 1
+    }
+
+    .sidebar-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      padding: 0 8px;
+      margin-top: auto
+    }
+
+    .sidebar-controls button {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: 0;
+      border: 0;
+      color: var(--gray);
+      font-family: var(--font-cond);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: all var(--ease)
+    }
+
+    .sidebar-controls button:hover {
+      color: #fff;
+      background: rgba(196, 30, 42, .08)
+    }
+
+    .sidebar-controls button svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .sidebar-controls button span {
+      opacity: 0;
+      transition: opacity var(--ease)
+    }
+
+    .sidebar:hover .sidebar-controls button span {
+      opacity: 1
+    }
+
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1100;
+      width: 44px;
+      height: 44px;
+      background: #050505;
+      border: 1px solid rgba(196, 30, 42, .3);
+      border-radius: 8px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center
+    }
+
+    .mobile-toggle svg {
+      stroke: #fff;
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .6);
+      z-index: 999
+    }
+
+    .sidebar-overlay.active {
+      display: block
+    }
+
+    .main {
+      margin-left: var(--sidebar-w);
+      position: relative;
+      z-index: 1
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 80px 60px;
+      position: relative
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: .75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .section-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--red)
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: 2px;
+      line-height: 1;
+      margin-bottom: 40px
+    }
+
+    #home {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 80px 60px;
+      overflow: hidden
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      z-index: 2
+    }
+
+    .hero-3d-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      max-width: 380px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .6);
+      border: 1px solid rgba(196, 30, 42, .15);
+      background: var(--black-card)
+    }
+
+    .hero-3d-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block
+    }
+
+    .hero-3d-fallback {
+      -webkit-mask-image: url('profile_alpha.png');
+      mask-image: url('profile_alpha.png');
+      -webkit-mask-size: cover;
+      mask-size: cover;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat
+    }
+
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2
+    }
+
+    .hero-tag {
+      font-family: var(--font-cond);
+      font-size: .9rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .8s .3s forwards
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      letter-spacing: 3px;
+      line-height: .95;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp .8s .5s forwards
+    }
+
+    .hero-name .red {
+      color: var(--red)
+    }
+
+    .hero-sub {
+      font-family: var(--font-cond);
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 40px;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .8s .7s forwards
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .8s .9s forwards
+    }
+
+    .hero-line {
+      position: absolute;
+      right: 10%;
+      top: 15%;
+      width: 1px;
+      height: 70%;
+      background: linear-gradient(to bottom, transparent, var(--red), transparent);
+      opacity: .2;
+      z-index: 2
+    }
+
+    .hero-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -4px;
+      width: 9px;
+      height: 9px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: .5
+      }
+    }
+
+    .btn {
+      font-family: var(--font-cond);
+      font-weight: 600;
+      font-size: .85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      background: var(--red-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(196, 30, 42, .3)
+    }
+
+    .btn-outline {
+      background: 0;
+      color: var(--white);
+      border: 1px solid var(--gray-dark)
+    }
+
+    .btn-outline:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px)
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start
+    }
+
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--gray-light)
+    }
+
+    .about-text p {
+      margin-bottom: 20px
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 30px
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--red), var(--gray-dark))
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 40px
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -34px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 2px solid var(--black)
+    }
+
+    .timeline-date {
+      font-family: var(--font-cond);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 6px
+    }
+
+    .timeline-title {
+      font-family: var(--font-cond);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .timeline-sub {
+      font-size: .85rem;
+      color: var(--gray);
+      font-style: italic
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px
+    }
+
+    .skill-card {
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 10px;
+      padding: 30px;
+      transition: all var(--ease);
+      position: relative;
+      overflow: hidden
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      opacity: 0;
+      transition: opacity var(--ease)
+    }
+
+    .skill-card:hover::before {
+      opacity: 1
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(196, 30, 42, .2)
+    }
+
+    .skill-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px
+    }
+
+    .skill-card-header svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .skill-card-header h3 {
+      font-family: var(--font-cond);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase
+    }
+
+    .skill-item {
+      margin-bottom: 16px
+    }
+
+    .skill-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px
+    }
+
+    .skill-item-name {
+      font-family: var(--font-cond);
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--gray-light)
+    }
+
+    .skill-item-pct {
+      font-family: var(--font-cond);
+      font-size: .8rem;
+      color: var(--red);
+      font-weight: 600
+    }
+
+    .skill-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, .06);
+      border-radius: 2px;
+      overflow: hidden
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red-dark), var(--red));
+      border-radius: 2px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .soft-skills-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .soft-tag {
+      font-family: var(--font-cond);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      padding: 8px 16px;
+      border: 1px solid rgba(196, 30, 42, .3);
+      border-radius: 20px;
+      color: var(--gray-light);
+      transition: all var(--ease)
+    }
+
+    .soft-tag:hover {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red)
+    }
+
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px
+    }
+
+    .exp-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 30px;
+      padding: 30px;
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 10px;
+      transition: all var(--ease);
+      position: relative
+    }
+
+    .exp-card:hover {
+      border-color: rgba(196, 30, 42, .2);
+      transform: translateX(4px)
+    }
+
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--red);
+      border-radius: 2px 0 0 2px;
+      opacity: 0;
+      transition: opacity var(--ease)
+    }
+
+    .exp-card:hover::before {
+      opacity: 1
+    }
+
+    .exp-date {
+      font-family: var(--font-cond);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--red);
+      text-transform: uppercase;
+      padding-top: 4px
+    }
+
+    .exp-role {
+      font-family: var(--font-cond);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .exp-badge {
+      font-family: var(--font-cond);
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 12px;
+      display: inline-block;
+      line-height: 1.2;
+    }
+
+    .exp-badge-internship {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: var(--gray-light);
+    }
+
+    .exp-badge-pfe {
+      background: rgba(196, 30, 42, .12);
+      border: 1px solid rgba(196, 30, 42, .35);
+      color: var(--red-bright);
+    }
+
+    .exp-org {
+      font-family: var(--font-cond);
+      font-size: .9rem;
+      color: var(--gray);
+      margin-bottom: 12px
+    }
+
+    .exp-techs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px
+    }
+
+    .exp-tech-tag {
+      font-family: var(--font-cond);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      padding: 4px 10px;
+      background: rgba(196, 30, 42, .1);
+      border-radius: 3px;
+      color: var(--red)
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 30px
+    }
+
+    .project-card {
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all var(--ease)
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(196, 30, 42, .25);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .4)
+    }
+
+    .project-img {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, var(--black-light), var(--gray-dark));
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .project-img svg {
+      width: 80%;
+      height: 80%;
+      opacity: .6
+    }
+
+    .project-img::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      background: linear-gradient(to top, var(--black-card), transparent)
+    }
+
+    .project-body {
+      padding: 24px
+    }
+
+    .project-title {
+      font-family: var(--font-cond);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .project-desc {
+      font-size: .85rem;
+      line-height: 1.7;
+      color: var(--gray);
+      margin-bottom: 16px
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .project-stack-tag {
+      font-family: var(--font-cond);
+      font-size: .7rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border: 1px solid rgba(196, 30, 42, .25);
+      border-radius: 3px;
+      color: var(--red)
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px
+    }
+
+    .cert-card {
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: all var(--ease)
+    }
+
+    a.cert-link,
+    .cert-link {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer
+    }
+
+    a.cert-link:hover,
+    .cert-link:hover {
+      border-color: var(--red);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(196, 30, 42, .15)
+    }
+
+    a.cert-link:hover .cert-view,
+    .cert-link:hover .cert-view {
+      opacity: 1;
+      color: var(--red)
+    }
+
+    .cert-view {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--font-cond);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      color: var(--gray-light);
+      opacity: .5;
+      transition: all var(--ease)
+    }
+
+    .cert-card:hover {
+      border-color: rgba(196, 30, 42, .2);
+      transform: translateY(-3px)
+    }
+
+    .cert-icon {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      background: rgba(196, 30, 42, .1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .cert-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .cert-title {
+      font-family: var(--font-cond);
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .cert-org {
+      font-size: .8rem;
+      color: var(--gray)
+    }
+
+    .org-card {
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 500px;
+      transition: all var(--ease)
+    }
+
+    .org-card:hover {
+      border-color: rgba(196, 30, 42, .2)
+    }
+
+    .org-role {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      margin-bottom: 4px
+    }
+
+    .org-name {
+      font-family: var(--font-cond);
+      font-weight: 600;
+      color: var(--red);
+      margin-bottom: 4px
+    }
+
+    .org-date {
+      font-size: .8rem;
+      color: var(--gray)
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 700px
+    }
+
+    .lang-card {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 10px;
+      transition: all var(--ease)
+    }
+
+    .lang-card:hover {
+      border-color: rgba(196, 30, 42, .2);
+      transform: translateY(-3px)
+    }
+
+    .lang-name {
+      font-family: var(--font-cond);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 12px
+    }
+
+    .lang-circle {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 12px
+    }
+
+    .lang-circle svg {
+      width: 80px;
+      height: 80px;
+      transform: rotate(-90deg)
+    }
+
+    .lang-circle circle {
+      fill: none;
+      stroke-width: 4
+    }
+
+    .lang-circle .bg {
+      stroke: rgba(255, 255, 255, .06)
+    }
+
+    .lang-circle .fill {
+      stroke: var(--red);
+      stroke-dasharray: 226;
+      stroke-dashoffset: 226;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.5s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .lang-level {
+      font-family: var(--font-cond);
+      font-size: .75rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase
+    }
+
+    #contact {
+      min-height: 80vh
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 8px;
+      transition: all var(--ease)
+    }
+
+    .contact-info-item:hover {
+      border-color: rgba(196, 30, 42, .2)
+    }
+
+    .contact-info-item svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 1.8;
+      flex-shrink: 0
+    }
+
+    .contact-info-text {
+      font-family: var(--font-cond);
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--gray-light)
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      font-family: var(--font-body);
+      font-size: .9rem;
+      padding: 14px 18px;
+      background: var(--black-card);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 6px;
+      color: var(--white);
+      outline: none;
+      transition: border-color var(--ease)
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--red)
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 120px
+    }
+
+    .project-video-wrap {
+      cursor: pointer;
+      position: relative
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      opacity: .9;
+      transition: all var(--ease);
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .4))
+    }
+
+    .project-video-wrap:hover .play-btn {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1)
+    }
+
+    .fs-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .92);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box
+    }
+
+    .fs-modal-overlay.active {
+      display: flex
+    }
+
+    .fs-modal-box {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column
+    }
+
+    .fs-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      flex-shrink: 0
+    }
+
+    .fs-modal-header h3 {
+      font-family: var(--font-cond);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin: 0
+    }
+
+    .fs-modal-close {
+      background: none;
+      border: none;
+      color: var(--gray-light);
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 4px;
+      transition: color .2s
+    }
+
+    .fs-modal-close:hover {
+      color: var(--red)
+    }
+
+    .fs-modal-body {
+      flex: 1;
+      overflow: hidden;
+      min-height: 0
+    }
+
+    .fs-modal-body video {
+      width: 100%;
+      max-height: calc(90vh - 60px);
+      display: block;
+      background: #000
+    }
+
+    .fs-modal-body iframe {
+      width: 100%;
+      height: calc(90vh - 60px);
+      border: none;
+      display: block
+    }
+
+    .fs-modal-desc {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      font-size: .82rem;
+      line-height: 1.6;
+      color: var(--gray-light);
+      max-height: 120px;
+      overflow-y: auto;
+      flex-shrink: 0
+    }
+
+    @media(max-width:768px) {
+      .fs-modal-box {
+        max-width: 100%;
+        border-radius: 8px
+      }
+
+      .fs-modal-body iframe,
+      .fs-modal-body video {
+        height: calc(80vh - 60px)
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .8s cubic-bezier(.4, 0, .2, 1), transform .8s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px;
+      font-size: .75rem;
+      color: var(--gray);
+      font-family: var(--font-cond);
+      letter-spacing: 1px;
+      border-top: 1px solid rgba(255, 255, 255, .05)
+    }
+
+    @media(max-width:1024px) {
+      section {
+        padding: 60px 40px
+      }
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px
+      }
+
+      .hero-btns {
+        justify-content: center
+      }
+
+      .hero-3d-wrapper {
+        max-width: 300px;
+        order: -1
+      }
+
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr
+      }
+
+      .exp-card {
+        grid-template-columns: 1fr
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        width: var(--sidebar-exp) !important;
+        transition: transform var(--ease)
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .sidebar .sidebar-nav a span,
+      .sidebar .sidebar-controls button span {
+        opacity: 1 !important
+      }
+
+      .mobile-toggle {
+        display: flex
+      }
+
+      .main {
+        margin-left: 0
+      }
+
+      section {
+        padding: 60px 24px
+      }
+
+      .hero-line {
+        display: none
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ====== FULL-PAGE FLAME EFFECT ====== */
+    #flame-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none
+    }
+
+    [data-theme="light"] #flame-canvas {
+      opacity: .15
+    }
+  </style>
 </head>
+
 <body>
-<canvas id="flame-canvas"></canvas>
-<canvas id="bg-canvas"></canvas>
-<button class="mobile-toggle" id="mobileToggle" aria-label="Menu"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo"><img src="icon2.png"></div>
-  <div class="sidebar-nav">
-    <a href="#home" class="active" data-section="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span data-en="Home" data-fr="Accueil">Home</span></a>
-    <a href="#about" data-section="about"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-en="About" data-fr="Profil">About</span></a>
-    <a href="#skills" data-section="skills"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span data-en="Skills" data-fr="Competences">Skills</span></a>
-    <a href="#experience" data-section="experience"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg><span data-en="Experience" data-fr="Experience">Experience</span></a>
-    <a href="#projects" data-section="projects"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span data-en="Projects" data-fr="Projets">Projects</span></a>
-    <a href="#certifications" data-section="certifications"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg><span data-en="Certifications" data-fr="Certifications">Certifications</span></a>
-    <a href="#leadership" data-section="leadership"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-en="Leadership" data-fr="Leadership">Leadership</span></a>
-    <a href="#languages" data-section="languages"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span data-en="Languages" data-fr="Langues">Languages</span></a>
-    <a href="#contact" data-section="contact"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-en="Contact" data-fr="Contact">Contact</span></a>
-  </div>
-  <div class="sidebar-controls">
-    <button id="langToggle"><svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/><path d="M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg><span>EN / FR</span></button>
-    <button id="themeToggle"><svg viewBox="0 0 24 24" id="themeIcon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span data-en="Theme" data-fr="Theme">Theme</span></button>
-  </div>
-</nav>
-<main class="main">
-<section id="home">
-  <div class="hero-content">
-    <p class="hero-tag" data-en="Software Engineer" data-fr="Ingénieur Logiciel">Software Engineer</p>
-    <h1 class="hero-name">MOHAMED MONDIR <span class="red">BALALI</span></h1>
-    <p class="hero-sub" data-en="Transforming ideas into robust digital solutions. Expert in end-to-end 
-development from responsive frontends to scalable backend architectures." data-fr="Transformer des idées en solutions numériques robustes. Expert de bout en bout 
-le développement à partir d’interfaces réactives vers des architectures dorsales évolutives.">Transforming ideas into robust digital solutions. Expert in end-to-end 
-development from responsive frontends to scalable backend architectures.</p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn btn-primary"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span data-en="View Projects" data-fr="Voir Projets">View Projects</span></a>
-      <a href="#contact" class="btn btn-outline"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-en="Contact Me" data-fr="Me Contacter">Contact Me</span></a>
+  <canvas id="flame-canvas"></canvas>
+  <canvas id="bg-canvas"></canvas>
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu"><svg viewBox="0 0 24 24">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg></button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="icon3.png" alt="Logo">
+      <span class="sidebar-logo-text">MOHAMED M. <span style="color: var(--red)">BALALI</span></span>
     </div>
-  </div>
-  <div class="hero-line"></div>
-</section>
-<section id="about">
-  <div class="reveal"><p class="section-label" data-en="Who I Am" data-fr="Qui suis-je">Who I Am</p><h2 class="section-title" data-en="ABOUT ME" data-fr="A PROPOS">ABOUT ME</h2></div>
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <p data-en="Full-stack software engineer with deep expertise in building modern web and 
+    <div class="sidebar-nav">
+      <a href="#home" class="active" data-section="home"><svg viewBox="0 0 24 24">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg><span data-en="Home" data-fr="Accueil">Home</span></a>
+      <a href="#about" data-section="about"><svg viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg><span data-en="About" data-fr="Profil">About</span></a>
+      <a href="#skills" data-section="skills"><svg viewBox="0 0 24 24">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg><span data-en="Skills" data-fr="Competences">Skills</span></a>
+      <a href="#experience" data-section="experience"><svg viewBox="0 0 24 24">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg><span data-en="Experience" data-fr="Experience">Experience</span></a>
+      <a href="#projects" data-section="projects"><svg viewBox="0 0 24 24">
+          <polygon points="12 2 2 7 12 12 22 7 12 2" />
+          <polyline points="2 17 12 22 22 17" />
+          <polyline points="2 12 12 17 22 12" />
+        </svg><span data-en="Projects" data-fr="Projets">Projects</span></a>
+      <a href="#certifications" data-section="certifications"><svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="7" />
+          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+        </svg><span data-en="Certifications" data-fr="Certifications">Certifications</span></a>
+      <a href="#leadership" data-section="leadership"><svg viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg><span data-en="Leadership" data-fr="Leadership">Leadership</span></a>
+      <a href="#languages" data-section="languages"><svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg><span data-en="Languages" data-fr="Langues">Languages</span></a>
+      <a href="#contact" data-section="contact"><svg viewBox="0 0 24 24">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg><span data-en="Contact" data-fr="Contact">Contact</span></a>
+    </div>
+    <div class="sidebar-controls">
+      <button id="langToggle"><svg viewBox="0 0 24 24">
+          <path
+            d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z" />
+          <path d="M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
+        </svg><span>EN / FR</span></button>
+      <button id="themeToggle"><svg viewBox="0 0 24 24" id="themeIcon">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg><span data-en="Theme" data-fr="Theme">Theme</span></button>
+    </div>
+  </nav>
+  <main class="main">
+    <section id="home">
+      <div class="hero-container">
+        <div class="hero-content">
+          <p class="hero-tag" data-en="Software Engineer" data-fr="Ingénieur Logiciel">Software Engineer</p>
+          <h1 class="hero-name">MOHAMED MONDIR <span class="red">BALALI</span></h1>
+          <p class="hero-sub" data-en="Transforming ideas into robust digital solutions. Expert in end-to-end 
+development from responsive frontends to scalable backend architectures." data-fr="Transformer des idées en solutions numériques robustes. Expert de bout en bout 
+le développement à partir d’interfaces réactives vers des architectures dorsales évolutives.">Transforming ideas into
+            robust digital solutions. Expert in end-to-end
+            development from responsive frontends to scalable backend architectures.</p>
+          <div class="hero-btns">
+            <a href="#projects" class="btn btn-primary"><svg viewBox="0 0 24 24">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg><span data-en="View Projects" data-fr="Voir Projets">View Projects</span></a>
+            <a href="#contact" class="btn btn-outline"><svg viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg><span data-en="Contact Me" data-fr="Me Contacter">Contact Me</span></a>
+          </div>
+        </div>
+
+      </div>
+      <div class="hero-line"></div>
+    </section>
+    <section id="about">
+      <div class="reveal">
+        <p class="section-label" data-en="Who I Am" data-fr="Qui suis-je">Who I Am</p>
+        <h2 class="section-title" data-en="ABOUT ME" data-fr="A PROPOS">ABOUT ME</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p data-en="Full-stack software engineer with deep expertise in building modern web and 
 mobile applications. Holding a Bachelor's degree in Computer Engineering and 
 currently pursuing a Master's in Digital Transformation, I combine strong 
-technical foundations with the ability to design innovative solutions." 
-      data-fr="Ingénieur logiciel full-stack avec une expertise approfondie dans le 
+technical foundations with the ability to design innovative solutions." data-fr="Ingénieur logiciel full-stack avec une expertise approfondie dans le 
 développement d'applications web et mobile modernes. Titulaire d'une Licence 
 en Génie Informatique et actuellement en Master Transformation Digitale, je 
 combine solides fondations techniques et capacité à concevoir des solutions 
 innovantes.
-">Full-stack software engineer with deep expertise in building modern web and 
-mobile applications. Holding a Bachelor's degree in Computer Engineering and 
-currently pursuing a Master's in Digital Transformation, I combine strong 
-technical foundations with the ability to design innovative solutions.</p>
-      <p data-en="Specialized in the JavaScript ecosystem (React, Next.js, Vue.js, Angular) 
+">Full-stack software engineer with deep expertise in building modern web and
+            mobile applications. Holding a Bachelor's degree in Computer Engineering and
+            currently pursuing a Master's in Digital Transformation, I combine strong
+            technical foundations with the ability to design innovative solutions.</p>
+          <p data-en="Specialized in the JavaScript ecosystem (React, Next.js, Vue.js, Angular) 
 and mobile development (Flutter), I also master robust backend architectures 
 using ASP.NET, Spring Boot, and PHP. My experience spans building intelligent 
 decision support systems, augmented reality applications, and comprehensive 
-web platforms managing thousands of users." 
-      data-fr="Spécialisé dans l'écosystème JavaScript (React, Next.js, Vue.js, Angular) 
+web platforms managing thousands of users." data-fr="Spécialisé dans l'écosystème JavaScript (React, Next.js, Vue.js, Angular) 
 et le développement mobile (Flutter), je maîtrise également les architectures 
 backend robustes avec ASP.NET, Spring Boot et PHP. Mon expérience couvre la 
 création de systèmes d'aide à la décision intelligents, d'applications de 
 réalité augmentée, et de plateformes web complètes gérant des milliers 
 d'utilisateurs.">
-      Specialized in the JavaScript ecosystem (React, Next.js, Vue.js, Angular) 
-and mobile development (Flutter), I also master robust backend architectures 
-using ASP.NET, Spring Boot, and PHP. My experience spans building intelligent 
-decision support systems, augmented reality applications, and comprehensive 
-web platforms managing thousands of users.</p>
-    <p data-en="Passionate about clean code and scalable architectures, I strive to transform 
+            Specialized in the JavaScript ecosystem (React, Next.js, Vue.js, Angular)
+            and mobile development (Flutter), I also master robust backend architectures
+            using ASP.NET, Spring Boot, and PHP. My experience spans building intelligent
+            decision support systems, augmented reality applications, and comprehensive
+            web platforms managing thousands of users.</p>
+          <p data-en="Passionate about clean code and scalable architectures, I strive to transform 
 complex problems into elegant, high-performance solutions. My unique background 
 bridging technology and sports domains has taught me to quickly understand 
-business needs and deliver user-centric products." 
-      data-fr="Passionné par le code propre et les architectures scalables, je m'efforce de 
+business needs and deliver user-centric products." data-fr="Passionné par le code propre et les architectures scalables, je m'efforce de 
 transformer des problématiques complexes en solutions élégantes et performantes. 
 Mon parcours unique alliant technologie et domaine sportif m'a appris à 
 comprendre rapidement les besoins métier et à livrer des produits centrés 
 utilisateur.">
-      Passionate about clean code and scalable architectures, I strive to transform 
-complex problems into elegant, high-performance solutions. My unique background 
-bridging technology and sports domains has taught me to quickly understand 
-business needs and deliver user-centric products.</p>
-    </div>
-    <div class="reveal">
-      <p class="section-label" data-en="Education" data-fr="Formation">Education</p>
-      <div class="timeline">
-        <div class="timeline-item"><p class="timeline-date">2024 - 2026</p><h4 class="timeline-title" data-en="Master Digital Transformation &amp; Sport Technologies" data-fr="Master Transformation Digitale et Technologies de Sport">Master Digital Transformation &amp; Sport Technologies</h4><p class="timeline-sub" data-en="Institute of Sport Sciences, Settat" data-fr="Institut des Sciences du Sport, Settat">Institute of Sport Sciences, Settat</p></div>
-        <div class="timeline-item"><p class="timeline-date">2019 - 2023</p><h4 class="timeline-title" data-en="Bachelor's in Computer Science Engineering" data-fr="Licence en Genie Informatique">Bachelor's in Computer Science Engineering</h4><p class="timeline-sub" data-en="Faculty of Sciences and Techniques, Settat" data-fr="Faculte des Sciences et Techniques, Settat">Faculty of Sciences and Techniques, Settat</p></div>
+            Passionate about clean code and scalable architectures, I strive to transform
+            complex problems into elegant, high-performance solutions. My unique background
+            bridging technology and sports domains has taught me to quickly understand
+            business needs and deliver user-centric products.</p>
+        </div>
+        <div class="reveal">
+          <p class="section-label" data-en="Education" data-fr="Formation">Education</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <p class="timeline-date">2024 - 2026</p>
+              <h4 class="timeline-title" data-en="Master Digital Transformation &amp; Sport Technologies"
+                data-fr="Master Transformation Digitale et Technologies de Sport">Master Digital Transformation &amp;
+                Sport Technologies</h4>
+              <p class="timeline-sub" data-en="Institute of Sport Sciences, Settat"
+                data-fr="Institut des Sciences du Sport, Settat">Institute of Sport Sciences, Settat</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-date">2019 - 2023</p>
+              <h4 class="timeline-title" data-en="Bachelor's in Computer Science Engineering"
+                data-fr="Licence en Genie Informatique">Bachelor's in Computer Science Engineering</h4>
+              <p class="timeline-sub" data-en="Faculty of Sciences and Techniques, Settat"
+                data-fr="Faculte des Sciences et Techniques, Settat">Faculty of Sciences and Techniques, Settat</p>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
+    <section id="skills">
+      <div class="reveal">
+        <p class="section-label" data-en="Technical Arsenal" data-fr="Arsenal Technique">Technical Arsenal</p>
+        <h2 class="section-title" data-en="SKILLS" data-fr="COMPETENCES">SKILLS</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-card-header"><svg viewBox="0 0 24 24">
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+            <h3 data-en="Programming Languages" data-fr="Langages de Programmation">Programming Languages</h3>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Python</span><span
+                class="skill-item-pct">85%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="85"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">JavaScript</span><span
+                class="skill-item-pct">85%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="85"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">PHP</span><span
+                class="skill-item-pct">80%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="80"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Dart</span><span
+                class="skill-item-pct">70%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="70"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">C# / C</span><span
+                class="skill-item-pct">65%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="65"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">SQL / R</span><span
+                class="skill-item-pct">75%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="75"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card-header"><svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 2v20" />
+              <path d="M17 2v20" />
+              <path d="M2 12h20" />
+            </svg>
+            <h3 data-en="Frameworks &amp; Tools" data-fr="Frameworks &amp; Outils">Frameworks &amp; Tools</h3>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">React / Next.js / Vue.js</span><span
+                class="skill-item-pct">80%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="80"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Angular / Spring Boot</span><span
+                class="skill-item-pct">75%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="75"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Flutter</span><span
+                class="skill-item-pct">70%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="70"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Unity / AR Development</span><span
+                class="skill-item-pct">75%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="75"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Streamlit / Data Tools</span><span
+                class="skill-item-pct">80%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="80"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Git / Postman / WordPress</span><span
+                class="skill-item-pct">85%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="85"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card-header"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+              <path d="M2 12h20" />
+            </svg>
+            <h3 data-en="Sport &amp; Data Technologies" data-fr="Technologies Sport &amp; Data">Sport &amp; Data
+              Technologies</h3>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Football Analytics</span><span
+                class="skill-item-pct">80%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="80"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">MediaPipe / Pose Detection</span><span
+                class="skill-item-pct">70%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="70"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">Statistical Analysis</span><span
+                class="skill-item-pct">75%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="75"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header"><span class="skill-item-name">AR for Rehabilitation</span><span
+                class="skill-item-pct">70%</span></div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" data-width="70"></div>
+            </div>
+          </div>
+          <p class="section-label" style="margin-top:24px" data-en="Soft Skills" data-fr="Competences Douces">Soft
+            Skills</p>
+          <div class="soft-skills-tags" style="margin-top:12px"><span class="soft-tag" data-en="Communication"
+              data-fr="Communication">Communication</span><span class="soft-tag" data-en="Adaptability"
+              data-fr="Adaptabilite">Adaptability</span><span class="soft-tag" data-en="Teamwork"
+              data-fr="Travail d'equipe">Teamwork</span><span class="soft-tag" data-en="Punctuality"
+              data-fr="Ponctualite">Punctuality</span></div>
+        </div>
+      </div>
+    </section>
+    <section id="experience">
+      <div class="reveal">
+        <p class="section-label" data-en="Career Path" data-fr="Parcours Professionnel">Career Path</p>
+        <h2 class="section-title" data-en="EXPERIENCE" data-fr="EXPERIENCE">EXPERIENCE</h2>
+      </div>
+      <div class="exp-list">
+        <div class="exp-card reveal">
+          <div class="exp-date" data-en="Mar 2026 - Present" data-fr="03-2026 - Présent">Mar 2026 - Present</div>
+          <div>
+            <h3 class="exp-role">
+              <span data-en="Flutter / ASP.NET Developer" data-fr="Développeur Flutter-React / ASP.NET">Flutter /
+                ASP.NET Developer</span>
+              <span class="exp-badge exp-badge-internship" data-en="Internship" data-fr="Stage">Internship</span>
+            </h3>
+            <p class="exp-org">Groupe OMF</p>
+
+            <div class="exp-techs">
+              <span class="exp-tech-tag">React</span>
+              <span class="exp-tech-tag">ASP.NET</span>
+              <span class="exp-tech-tag">C#</span>
+              <span class="exp-tech-tag">Dart</span>
+              <span class="exp-tech-tag">SQL</span>
+            </div>
+          </div>
+        </div>
+        <div class="exp-card reveal">
+          <div class="exp-date" data-en="Feb - May 2026" data-fr="02-2026 - 05-2026">Feb - May 2026</div>
+          <div>
+            <h3 class="exp-role">
+              <span data-en="React / ASP.NET Developer" data-fr="Développeur React / ASP.NET">React / ASP.NET
+                Developer</span>
+              <span class="exp-badge exp-badge-pfe" data-en="PFE" data-fr="Stage PFE">PFE</span>
+            </h3>
+            <p class="exp-org">Distamed</p>
+            <ul class="exp-desc"
+              style="font-size: .85rem; line-height: 1.6; color: var(--gray-light); margin-bottom: 12px; padding-left: 16px;">
+              <li
+                data-en="Developed a decision support system analyzing 12+ cardiopulmonary metrics to generate personalized training prescriptions"
+                data-fr="Développé un système d'aide à la décision analysant 12+ métriques cardio-pulmonaires pour générer des prescriptions d'entraînement personnalisées">
+                Developed a decision support system analyzing 12+ cardiopulmonary metrics to generate personalized
+                training prescriptions</li>
+              <li
+                data-en="Created 8 reusable React components and 2 interactive dashboards visualizing VO2max data, ventilatory thresholds, and training zones"
+                data-fr="Créé 8 composants React réutilisables et 2 dashboards interactifs visualisant les données VO2max, seuils ventilatoires et zones d'entraînement">
+                Created 8 reusable React components and 2 interactive dashboards visualizing VO2max data, ventilatory
+                thresholds, and training zones</li>
+              <li
+                data-en="Implemented a recommendation engine reducing training prescription time by 50% (from 30 to 15 minutes per patient)"
+                data-fr="Implémenté un moteur de recommandation réduisant le temps de prescription d'entraînement de 50% (de 30 à 15 minutes par patient)">
+                Implemented a recommendation engine reducing training prescription time by 50% (from 30 to 15 minutes
+                per patient)</li>
+            </ul>
+            <div class="exp-techs">
+              <span class="exp-tech-tag">React</span>
+              <span class="exp-tech-tag">ASP.NET</span>
+              <span class="exp-tech-tag">C#</span>
+              <span class="exp-tech-tag">JavaScript</span>
+              <span class="exp-tech-tag">Data Visualization</span>
+            </div>
+          </div>
+        </div>
+        <div class="exp-card reveal">
+          <div class="exp-date" data-en="Jul - Sep 2024" data-fr="07-2024 - 09-2024">Jul - Sep 2024</div>
+          <div>
+            <h3 class="exp-role">
+              <span data-en="Angular / Spring Boot Developer" data-fr="Développeur Angular / Spring Boot">Angular /
+                Spring Boot Developer</span>
+              <span class="exp-badge exp-badge-internship" data-en="Internship" data-fr="Stage">Internship</span>
+            </h3>
+            <p class="exp-org">Amasoft MAROC</p>
+            <ul class="exp-desc"
+              style="font-size: .85rem; line-height: 1.6; color: var(--gray-light); margin-bottom: 12px; padding-left: 16px;">
+              <li
+                data-en="Developed 6 functional modules (student management, grades, absences, schedule, communication, billing) for an educational platform"
+                data-fr="Développé 6 modules fonctionnels (gestion élèves, notes, absences, emploi du temps, communication, facturation) pour une plateforme éducative">
+                Developed 6 functional modules (student management, grades, absences, schedule, communication, billing)
+                for an educational platform</li>
+              <li
+                data-en="Designed 25+ Angular interfaces with Material Design, managing data for 3 pilot school groups (1,200+ students)"
+                data-fr="Conçu 25+ interfaces Angular avec Material Design, gérant les données de 3 groupes scolaires pilotes (1,200+ élèves)">
+                Designed 25+ Angular interfaces with Material Design, managing data for 3 pilot school groups (1,200+
+                students)</li>
+            </ul>
+            <div class="exp-techs">
+              <span class="exp-tech-tag">Angular</span>
+              <span class="exp-tech-tag">Spring Boot</span>
+              <span class="exp-tech-tag">REST API</span>
+              <span class="exp-tech-tag">SQL</span>
+            </div>
+          </div>
+        </div>
+        <div class="exp-card reveal">
+          <div class="exp-date" data-en="Mar - Jun 2024" data-fr="03-2024 - 06-2024">Mar - Jun 2024</div>
+          <div>
+            <h3 class="exp-role">
+              <span data-en="AR Developer" data-fr="Développeur RA">AR Developer</span>
+              <span class="exp-badge exp-badge-internship" data-en="Internship" data-fr="Stage">Internship</span>
+            </h3>
+            <p class="exp-org">Maghreb Rayonnage</p>
+            <p class="exp-desc"
+              style="font-size: .85rem; line-height: 1.6; color: var(--gray-light); margin-bottom: 12px;"
+              data-en="Developed an AR mobile app (Unity/C#) projecting 50+ 3D models of shelving systems in real environments"
+              data-fr="Développé une application mobile AR (Unity/C#) projetant 50+ modèles 3D de systèmes de rayonnage en environnement réel">
+              Developed an AR mobile app (Unity/C#) projecting 50+ 3D models of shelving systems in real environments
+            </p>
+            <div class="exp-techs">
+              <span class="exp-tech-tag">Unity</span>
+              <span class="exp-tech-tag">C#</span>
+              <span class="exp-tech-tag">AR</span>
+              <span class="exp-tech-tag">3D Modeling</span>
+            </div>
+          </div>
+        </div>
+        <div class="exp-card reveal">
+          <div class="exp-date" data-en="Apr - Jun 2023" data-fr="04-2023 - 06-2023">Apr - Jun 2023</div>
+          <div>
+            <h3 class="exp-role">
+              <span data-en="Full-Stack Developer Assistant" data-fr="Développeur Full-Stack Assistant">Full-Stack
+                Developer Assistant</span>
+              <span class="exp-badge exp-badge-pfe" data-en="PFE" data-fr="Stage PFE">PFE</span>
+            </h3>
+            <p class="exp-org">Sapilog SARL</p>
+            <ul class="exp-desc"
+              style="font-size: .85rem; line-height: 1.6; color: var(--gray-light); margin-bottom: 12px; padding-left: 16px;">
+              <li
+                data-en="Developed a Flutter mobile app displaying 300+ products with advanced search and filters, generating 1,500+ views/month"
+                data-fr="Développé une app mobile Flutter affichant 300+ produits avec recherche et filtres avancés, générant 1,500+ consultations/mois">
+                Developed a Flutter mobile app displaying 300+ products with advanced search and filters, generating
+                1,500+ views/month</li>
+              <li data-en="Designed the PHP backend API managing 5 REST endpoints, supporting 50+ concurrent requests"
+                data-fr="Conçu l'API backend PHP gérant 5 endpoints REST, supportant 50+ requêtes simultanées">
+                Designed the PHP backend API managing 5 REST endpoints, supporting 50+ concurrent requests</li>
+              <li
+                data-en="Created a web dashboard (HTML/CSS/JS/PHP) for managing 8 product categories, reducing update time by 75%"
+                data-fr="Créé un dashboard web (HTML/CSS/JS/PHP) permettant la gestion de 8 catégories de produits, réduisant le temps de mise à jour de 75%">
+                Created a web dashboard (HTML/CSS/JS/PHP) for managing 8 product categories, reducing update time by 75%
+              </li>
+              <li data-en="Implemented a secure authentication system protecting 3 administrator access levels"
+                data-fr="Implémenté un système d'authentification sécurisé protégeant 3 niveaux d'accès administrateur">
+                Implemented a secure authentication system protecting 3 administrator access levels</li>
+            </ul>
+            <div class="exp-techs">
+              <span class="exp-tech-tag">Flutter</span>
+              <span class="exp-tech-tag">PHP</span>
+              <span class="exp-tech-tag">JavaScript</span>
+              <span class="exp-tech-tag">HTML/CSS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="projects">
+      <div class="reveal">
+        <p class="section-label" data-en="Featured Work" data-fr="Travaux Realises">Featured Work</p>
+        <h2 class="section-title" data-en="PROJECTS" data-fr="PROJETS">PROJECTS</h2>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card reveal">
+          <div class="project-img project-video-wrap"
+            onclick="openVideoModal('Squat Analyzer','videos/Squat Analyzer.mp4','Computer vision app analyzing squat technique via YOLOv8-pose.')">
+            <svg viewBox="0 0 400 200">
+              <rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" />
+              <circle cx="150" cy="55" r="8" fill="none" stroke="#00aaff" stroke-width="2" />
+              <line x1="150" y1="63" x2="150" y2="95" stroke="#00aaff" stroke-width="2" />
+              <line x1="150" y1="75" x2="130" y2="85" stroke="#00aaff" stroke-width="2" />
+              <line x1="150" y1="75" x2="170" y2="85" stroke="#00aaff" stroke-width="2" />
+              <line x1="150" y1="95" x2="135" y2="120" stroke="#00aaff" stroke-width="2" />
+              <line x1="150" y1="95" x2="165" y2="120" stroke="#00aaff" stroke-width="2" />
+              <circle cx="150" cy="95" r="3" fill="#c41e2a" /><text x="178" y="98" fill="#c41e2a"
+                font-family="monospace" font-size="10">82</text>
+              <rect x="230" y="30" width="140" height="55" rx="4" fill="#222" />
+              <polyline points="240,70 260,60 280,50 300,55 320,40 340,45 360,42" fill="none" stroke="#c41e2a"
+                stroke-width="1.5" />
+              <rect x="230" y="100" width="140" height="55" rx="4" fill="#222" />
+              <rect x="245" y="130" width="8" height="15" fill="#00cc88" rx="1" />
+              <rect x="260" y="122" width="8" height="23" fill="#00cc88" rx="1" opacity=".8" />
+              <rect x="275" y="115" width="8" height="30" fill="#00cc88" rx="1" opacity=".6" />
+              <rect x="290" y="125" width="8" height="20" fill="#00cc88" rx="1" />
+              <rect x="305" y="118" width="8" height="27" fill="#00cc88" rx="1" /><text x="80" y="160" fill="#c41e2a"
+                font-family="monospace" font-size="9" text-anchor="middle">DEPTH OK</text>
+            </svg>
+            <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48">
+                <circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)" />
+                <polygon points="10,7 10,17 18,12" fill="#fff" />
+              </svg></div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title" data-en="Squat Analyzer - Computer Vision"
+              data-fr="Analyseur de Squat - Vision par Ordinateur">Squat Analyzer - Computer Vision</h3>
+            <p class="project-desc"
+              data-en="Real-time squat analysis using YOLOv8 pose estimation with joint angle computation, depth classification, symmetry detection, and automated coaching feedback."
+              data-fr="Analyse de squat en temps reel avec YOLOv8.">Real-time squat analysis using YOLOv8 pose
+              estimation with joint angle computation, depth classification, symmetry detection, and automated coaching
+              feedback.</p>
+            <div class="project-stack"><span class="project-stack-tag">YOLOv8</span><span
+                class="project-stack-tag">React.js</span><span class="project-stack-tag">FastAPI</span><span
+                class="project-stack-tag">OpenCV</span><span class="project-stack-tag">Python</span></div>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-img project-video-wrap"
+            onclick="openVideoModal('Aji Tssourte','videos/aji Tsourte.mp4','Digital platform to combat sedentary lifestyles in young adults.')">
+            <svg viewBox="0 0 400 200">
+              <rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" />
+              <rect x="155" y="20" width="90" height="160" rx="12" fill="#222" stroke="#444" />
+              <rect x="163" y="35" width="74" height="120" rx="4" fill="#1a2744" />
+              <circle cx="200" cy="65" r="12" fill="none" stroke="#3b82f6" stroke-width="1.5" />
+              <line x1="200" y1="77" x2="200" y2="105" stroke="#3b82f6" stroke-width="1.5" />
+              <line x1="200" y1="85" x2="185" y2="95" stroke="#3b82f6" stroke-width="1.5" />
+              <line x1="200" y1="85" x2="215" y2="95" stroke="#3b82f6" stroke-width="1.5" />
+              <line x1="200" y1="105" x2="188" y2="125" stroke="#3b82f6" stroke-width="1.5" />
+              <line x1="200" y1="105" x2="212" y2="125" stroke="#3b82f6" stroke-width="1.5" /><text x="200" y="145"
+                fill="#3b82f6" font-family="Bebas Neue" font-size="10" text-anchor="middle">AJI TSSOURTE</text>
+              <rect x="30" y="40" width="110" height="50" rx="6" fill="#222" /><text x="85" y="58" fill="#3b82f6"
+                font-family="monospace" font-size="8" text-anchor="middle">Auto-Bilan</text>
+              <rect x="40" y="68" width="30" height="4" rx="2" fill="#c41e2a" />
+              <rect x="75" y="68" width="20" height="4" rx="2" fill="#3b82f6" />
+              <rect x="260" y="40" width="110" height="50" rx="6" fill="#222" /><text x="315" y="58" fill="#3b82f6"
+                font-family="monospace" font-size="8" text-anchor="middle">Programme</text>
+              <rect x="270" y="68" width="90" height="4" rx="2" fill="#00cc88" />
+              <rect x="260" y="110" width="110" height="50" rx="6" fill="#222" /><text x="315" y="128" fill="#888"
+                font-family="monospace" font-size="8" text-anchor="middle">Progress</text>
+              <rect x="270" y="136" width="20" height="16" fill="#c41e2a" rx="1" opacity=".4" />
+              <rect x="295" y="130" width="20" height="22" fill="#c41e2a" rx="1" opacity=".6" />
+              <rect x="320" y="124" width="20" height="28" fill="#c41e2a" rx="1" opacity=".8" />
+              <rect x="345" y="118" width="20" height="34" fill="#c41e2a" rx="1" />
+            </svg>
+            <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48">
+                <circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)" />
+                <polygon points="10,7 10,17 18,12" fill="#fff" />
+              </svg></div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Aji Tssourte</h3>
+            <p class="project-desc"
+              data-en="Sport-health platform reducing sedentary behavior through personalized programs, validated assessments, safety detection, and adaptive progress tracking for young adults."
+              data-fr="Plateforme sport-sante reduisant la sedentarite.">Sport-health platform reducing sedentary
+              behavior through personalized programs, validated assessments, safety detection, and adaptive progress
+              tracking for young adults.</p>
+            <div class="project-stack"><span class="project-stack-tag">UX Design</span><span
+                class="project-stack-tag">Mobile App</span><span class="project-stack-tag">Sport Science</span><span
+                class="project-stack-tag">Figma</span></div>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-img project-video-wrap"
+            onclick="openVideoModal('Back2Play','videos/Back2play.mp4','Immersive AR solution for sports rehabilitation.')">
+            <svg viewBox="0 0 400 200">
+              <rect x="130" y="5" width="140" height="190" rx="16" fill="#1a1a1a" stroke="#333" stroke-width="1.5" />
+              <rect x="140" y="25" width="120" height="150" rx="4" fill="#111" />
+              <circle cx="200" cy="60" r="8" fill="none" stroke="#c41e2a" stroke-width="2" />
+              <line x1="200" y1="68" x2="200" y2="100" stroke="#c41e2a" stroke-width="2" />
+              <line x1="200" y1="80" x2="180" y2="90" stroke="#c41e2a" stroke-width="2" />
+              <line x1="200" y1="80" x2="220" y2="90" stroke="#c41e2a" stroke-width="2" />
+              <line x1="200" y1="100" x2="185" y2="125" stroke="#c41e2a" stroke-width="2" />
+              <line x1="200" y1="100" x2="215" y2="125" stroke="#c41e2a" stroke-width="2" />
+              <circle cx="200" cy="60" r="3" fill="#c41e2a" />
+              <circle cx="200" cy="80" r="3" fill="#c41e2a" opacity=".7" />
+              <circle cx="180" cy="90" r="3" fill="#c41e2a" opacity=".7" />
+              <circle cx="220" cy="90" r="3" fill="#c41e2a" opacity=".7" />
+              <circle cx="200" cy="100" r="3" fill="#c41e2a" />
+              <circle cx="185" cy="125" r="3" fill="#c41e2a" opacity=".7" />
+              <circle cx="215" cy="125" r="3" fill="#c41e2a" opacity=".7" />
+              <rect x="30" y="50" width="80" height="100" rx="6" fill="#1a1a1a" stroke="#333" stroke-width=".5" /><text
+                x="70" y="75" fill="#c41e2a" font-family="monospace" font-size="9" text-anchor="middle">ANGLE:
+                92</text><text x="70" y="95" fill="#888" font-family="monospace" font-size="8"
+                text-anchor="middle">REPS: 5/10</text><text x="70" y="115" fill="#888" font-family="monospace"
+                font-size="8" text-anchor="middle">SCORE: 87%</text>
+            </svg>
+            <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48">
+                <circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)" />
+                <polygon points="10,7 10,17 18,12" fill="#fff" />
+              </svg></div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Back2Play</h3>
+            <p class="project-desc"
+              data-en="Immersive AR solution for sports rehabilitation. Uses Unity, MediaPipe, and Python to guide patients through post-injury exercises with a 3D avatar, real-time posture feedback, and performance tracking."
+              data-fr="Solution AR immersive pour la reeducation sportive.">Immersive AR solution for sports
+              rehabilitation. Uses Unity, MediaPipe, and Python to guide patients through post-injury exercises with a
+              3D avatar, real-time posture feedback, and performance tracking.</p>
+            <div class="project-stack"><span class="project-stack-tag">Unity</span><span
+                class="project-stack-tag">MediaPipe</span><span class="project-stack-tag">Python</span><span
+                class="project-stack-tag">AR</span></div>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-img project-video-wrap"
+            onclick="openVideoModal('AppFerri - Droguerie Ferri','videos/AppFerri.mp4','Flutter mobile product catalog for Droguerie Ferri.')">
+            <svg viewBox="0 0 400 200">
+              <rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" />
+              <rect x="145" y="15" width="80" height="150" rx="10" fill="#222" stroke="#444" stroke-width="1" />
+              <rect x="152" y="28" width="66" height="110" rx="3" fill="#e8e8e8" /><text x="185" y="55" fill="#333"
+                font-family="Bebas Neue" font-size="7" text-anchor="middle">Droguerie</text><text x="185" y="67"
+                fill="#333" font-family="Bebas Neue" font-size="10" text-anchor="middle">FERRI</text>
+              <rect x="160" y="80" width="50" height="6" rx="2" fill="#ccc" />
+              <rect x="160" y="92" width="50" height="6" rx="2" fill="#ccc" />
+              <rect x="160" y="104" width="50" height="6" rx="2" fill="#ccc" />
+              <rect x="167" y="118" width="36" height="12" rx="3" fill="#1a8a6a" /><text x="185" y="127" fill="#fff"
+                font-family="monospace" font-size="6" text-anchor="middle">valider</text>
+              <rect x="20" y="30" width="110" height="70" rx="6" fill="#222" />
+              <rect x="28" y="38" width="94" height="10" rx="2" fill="#333" /><text x="75" y="46" fill="#888"
+                font-family="monospace" font-size="6" text-anchor="middle">Gestion des produits</text>
+              <rect x="28" y="54" width="94" height="4" rx="1" fill="#444" />
+              <rect x="28" y="62" width="70" height="4" rx="1" fill="#444" />
+              <rect x="28" y="70" width="94" height="4" rx="1" fill="#444" />
+              <rect x="260" y="30" width="110" height="70" rx="6" fill="#222" />
+              <rect x="268" y="38" width="94" height="10" rx="2" fill="#333" /><text x="315" y="46" fill="#888"
+                font-family="monospace" font-size="6" text-anchor="middle">Gestion utilisateurs</text>
+              <rect x="268" y="54" width="94" height="4" rx="1" fill="#444" />
+              <rect x="268" y="62" width="70" height="4" rx="1" fill="#444" /><text x="200" y="185" fill="#888"
+                font-family="monospace" font-size="8" text-anchor="middle">Flutter + PHP Admin Panel</text>
+            </svg>
+            <div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48">
+                <circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)" />
+                <polygon points="10,7 10,17 18,12" fill="#fff" />
+              </svg></div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">AppFerri</h3>
+            <p class="project-desc"
+              data-en="Dual-platform solution for Droguerie Ferri: a Flutter mobile product catalog with user registration, browsing, and ordering."
+              data-fr="Solution double-plateforme pour Droguerie Ferri.">Dual-platform solution for Droguerie Ferri: a
+              Flutter mobile product catalog with user registration, browsing, and ordering.</p>
+            <div class="project-stack"><span class="project-stack-tag">Flutter</span><span
+                class="project-stack-tag">PHP</span><span class="project-stack-tag">MySQL</span></div>
+          </div>
+        </div>
+        <!-- <div class="project-card reveal">
+          <div class="project-img project-video-wrap"><svg viewBox="0 0 400 200">
+              <rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" />
+              <rect x="20" y="20" width="100" height="60" rx="4" fill="#222" />
+              <rect x="130" y="20" width="100" height="60" rx="4" fill="#222" />
+              <rect x="240" y="20" width="140" height="60" rx="4" fill="#222" />
+              <rect x="30" y="55" width="12" height="20" fill="#c41e2a" rx="2" />
+              <rect x="48" y="45" width="12" height="30" fill="#c41e2a" rx="2" opacity=".8" />
+              <rect x="66" y="50" width="12" height="25" fill="#c41e2a" rx="2" opacity=".6" />
+              <rect x="84" y="40" width="12" height="35" fill="#c41e2a" rx="2" opacity=".7" />
+              <polyline points="145,65 160,50 175,55 190,40 205,45 220,35" fill="none" stroke="#c41e2a"
+                stroke-width="2" /><text x="310" y="55" fill="#c41e2a" font-family="Bebas Neue" font-size="24"
+                text-anchor="middle">89.3</text>
+            </svg></div>
+          <div class="project-body">
+            <h3 class="project-title">FootyMetrics</h3>
+            <p class="project-desc"
+              data-en="A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts."
+              data-fr="Application web d'analyse des donnees de performance football.">A web application for football
+              performance data analysis. Provides dashboards for visualizing player statistics, team performance
+              metrics, and match analytics with interactive charts.</p>
+            <div class="project-stack"><span class="project-stack-tag">Python</span><span
+                class="project-stack-tag">Streamlit</span><span class="project-stack-tag">Data Analysis</span><span
+                class="project-stack-tag">Pandas</span></div>
+          </div>
+        </div> -->
+        <!-- <div class="project-card reveal">
+          <div class="project-img project-video-wrap"><svg viewBox="0 0 400 200">
+              <rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" />
+              <path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160" fill="none"
+                stroke="#c41e2a" stroke-width="2.5" opacity=".8" />
+              <path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160 L360,170 L40,170 Z"
+                fill="#c41e2a" opacity=".08" />
+              <line x1="40" y1="170" x2="360" y2="170" stroke="#444" />
+              <line x1="40" y1="40" x2="40" y2="170" stroke="#444" />
+              <circle cx="200" cy="65" r="3" fill="#c41e2a" /><text x="200" y="30" fill="#888" font-family="monospace"
+                font-size="9" text-anchor="middle">ANOVA / Chi-Square / t-test</text>
+            </svg></div>
+          <div class="project-body">
+            <h3 class="project-title" data-en="Statistical Study - Ed. Tech in Sport"
+              data-fr="Etude Statistique - Tech Educatives en Sport">Statistical Study - Ed. Tech in Sport</h3>
+            <p class="project-desc"
+              data-en="Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests."
+              data-fr="Analyse statistique complete des technologies educatives en sciences du sport.">Comprehensive
+              statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and
+              Fisher tests for inferential data processing and hypothesis testing.</p>
+            <div class="project-stack"><span class="project-stack-tag">R</span><span
+                class="project-stack-tag">Statistics</span><span class="project-stack-tag">ANOVA</span><span
+                class="project-stack-tag">Chi-Square</span></div>
+          </div> -->
+      </div>
+      <!-- <div class="project-card reveal">
+        <div class="project-img project-video-wrap"><svg viewBox="0 0 400 200">
+            <rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333" />
+            <rect x="30" y="30" width="160" height="80" rx="6" fill="#222" />
+            <rect x="210" y="30" width="160" height="80" rx="6" fill="#222" /><text x="110" y="60" fill="#004d98"
+              font-family="Bebas Neue" font-size="16" text-anchor="middle">FCB</text><text x="290" y="60" fill="#fff"
+              font-family="Bebas Neue" font-size="16" text-anchor="middle">RMA</text><text x="110" y="85" fill="#c41e2a"
+              font-family="monospace" font-size="11" text-anchor="middle">76.47%</text><text x="290" y="85"
+              fill="#c41e2a" font-family="monospace" font-size="11" text-anchor="middle">52.94%</text><text x="200"
+              y="145" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">P(V|Home) via
+              Bayes</text>
+            <rect x="80" y="155" width="240" height="6" rx="3" fill="#333" />
+            <rect x="80" y="155" width="180" height="6" rx="3" fill="#c41e2a" opacity=".6" />
+          </svg></div>
+        <div class="project-body">
+          <h3 class="project-title" data-en="Clasico Winner Prediction (Bayes)"
+            data-fr="Prediction du Vainqueur du Clasico (Bayes)">Clasico Winner Prediction (Bayes)</h3>
+          <p class="project-desc"
+            data-en="Bayesian probability model predicting the next Clasico outcome using La Liga 2024-2025 statistics."
+            data-fr="Modele bayesien pour predire le Clasico.">Bayesian probability model predicting the next Clasico
+            outcome using La Liga 2024-2025 statistics, analyzing home/away performance for FC Barcelona and Real
+            Madrid.</p>
+          <div class="project-stack"><span class="project-stack-tag">Bayes</span><span
+              class="project-stack-tag">Statistics</span><span class="project-stack-tag">Football Analytics</span>
+          </div>
+        </div> -->
+      </div>
+      </div>
+    </section>
+    <section id="certifications">
+      <div class="reveal">
+        <p class="section-label" data-en="Credentials" data-fr="Certifications">Credentials</p>
+        <h2 class="section-title" data-en="CERTIFICATIONS" data-fr="CERTIFICATIONS">CERTIFICATIONS</h2>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('CERTIFICATION OF COMPLETION : WORKSHOP','certificates/Workshop.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">CERTIFICATION OF COMPLETION : WORKSHOP</h4>
+            <p class="cert-org">Catapult</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('IBM Full Stack Software Developer','certificates/Coursera IBM Full Stack Software.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">IBM Full Stack Software Developer</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Developing AI Applications with Python and Flask','certificates/Coursera Developing AI Applications with Python and Flask.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Developing AI Applications with Python and Flask</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Developing Back-End Apps with Node.js and Express','certificates/Coursera Developing Back-End Apps with Node.js and Express.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Developing Back-End Apps with Node.js and Express</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Developing Front-End Apps with React','certificates/Coursera Developing Front-End Apps with React.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Developing Front-End Apps with React</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Django Application Development with SQL','certificates/Coursera Django Application Development with SQL and.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Django Application Development with SQL</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Django Web Framework','certificates/Coursera Django Web Framework.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Django Web Framework</h4>
+            <p class="cert-org">Coursera / Meta</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Getting Started with Git and GitHub','certificates/Coursera Getting Started with Git and GitHub.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Getting Started with Git and GitHub</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Linux Commands and Shell Scripting','certificates/Coursera Hands-on Introduction to Linux Commands and Shell Scripting.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Hands-on Introduction to Linux Commands and Shell Scripting</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Introduction to Cloud Computing','certificates/Coursera Introduction to Cloud Computing.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Introduction to Cloud Computing</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Introduction to Software Engineering','certificates/Coursera Introduction to Software Engineering.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Introduction to Software Engineering</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Web Development with HTML, CSS, JavaScript','certificates/Coursera Introduction to Web Development with HTML, CSS, JavaScript.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Introduction to Web Development with HTML, CSS, JavaScript</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Programming in Python','certificates/Coursera Pragramming in Python by Meta.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Programming in Python</h4>
+            <p class="cert-org">Coursera / Meta</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Python for Data Science, AI &amp; Development','certificates/Coursera Python for Data Science, AI & Development.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Python for Data Science, AI &amp; Development</h4>
+            <p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('The Data Scientist\'s Toolbox','certificates/Coursera The Data Scientists ToolBox.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">The Data Scientist's Toolbox</h4>
+            <p class="cert-org">Coursera / Johns Hopkins</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Algebra and Differential Calculus for Data Science','certificates/Coursera Algebra and Differential Calculus for Data Science.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Algebra and Differential Calculus for Data Science</h4>
+            <p class="cert-org">Coursera</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('CS50 Introduction to Programming With Python','certificates/CS50P.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">CS50 Introduction to Programming With Python</h4>
+            <p class="cert-org">Harvard / CS50</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Responsive Web Design','certificates/freecodecamp Responsive web design certificate.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Responsive Web Design</h4>
+            <p class="cert-org">freeCodeCamp</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+        <div class="cert-card cert-link reveal"
+          onclick="openPdfModal('Athlete 365: Sports Coaching','certificates/Sport Coaching Certificate.pdf')">
+          <div class="cert-icon"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+            </svg></div>
+          <div>
+            <h4 class="cert-title">Athlete 365: Sports Coaching</h4>
+            <p class="cert-org">International Olympic Committee</p><span class="cert-view" data-en="View Certificate ↗"
+              data-fr="Voir le Certificat ↗">View Certificate ↗</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="leadership">
+      <div class="reveal">
+        <p class="section-label" data-en="Impact" data-fr="Impact">Impact</p>
+        <h2 class="section-title" data-en="VOLUNTEERING" data-fr="Volontariat">Volunteering</h2>
+      </div>
+      <div class="org-card reveal">
+        <h3 class="org-role">IT VOLUNTEER</h3>
+        <p class="org-name">CAF WAFCON</p>
+        <p class="org-date">Jul 2025 - Jul 2025</p>
+        <p style="margin-top:16px;font-size:.9rem;line-height:1.7;color:var(--gray-light)"
+          data-en="Provided critical technical support during the Women's Africa Cup of Nations. Resolved hardware and software issues, configured network systems, and assisted with broadcast infrastructure ensuring seamless tournament operations."
+          data-fr="Support technique critique lors de la CAN Feminine.">Provided critical technical support during the
+          Women's Africa Cup of Nations. Resolved hardware and software issues, configured network systems, and assisted
+          with broadcast infrastructure ensuring seamless tournament operations.</p>
+      </div></br>
+      <div class="org-card reveal">
+        <h3 class="org-role">VICE TEAM LEADER</h3>
+        <p class="org-name">Enactus I2S Settat</p>
+        <p class="org-date">Feb 2025 - Jun 2025</p>
+        <p style="margin-top:16px;font-size:.9rem;line-height:1.7;color:var(--gray-light)"
+          data-en="Led collaborative initiatives within Enactus, fostering social entrepreneurship and team coordination. Managed project timelines, mentored team members, and represented the organization in regional competitions."
+          data-fr="Direction d'initiatives collaboratives au sein d'Enactus.">Led collaborative initiatives within
+          Enactus, fostering social entrepreneurship and team coordination. Managed project timelines, mentored team
+          members, and represented the organization in regional competitions.</p>
+      </div>
+    </section>
+    <section id="languages">
+      <div class="reveal">
+        <p class="section-label" data-en="Communication" data-fr="Communication">Communication</p>
+        <h2 class="section-title" data-en="LANGUAGES" data-fr="LANGUES">LANGUAGES</h2>
+      </div>
+      <div class="lang-grid">
+        <div class="lang-card reveal">
+          <h4 class="lang-name" data-en="Arabic" data-fr="Arabe">Arabic</h4>
+          <div class="lang-circle"><svg viewBox="0 0 80 80">
+              <circle class="bg" cx="40" cy="40" r="36" />
+              <circle class="fill" cx="40" cy="40" r="36" data-pct="95" />
+            </svg></div>
+          <p class="lang-level" data-en="Native" data-fr="Langue Maternelle">Native</p>
+        </div>
+        <div class="lang-card reveal">
+          <h4 class="lang-name" data-en="French" data-fr="Francais">French</h4>
+          <div class="lang-circle"><svg viewBox="0 0 80 80">
+              <circle class="bg" cx="40" cy="40" r="36" />
+              <circle class="fill" cx="40" cy="40" r="36" data-pct="90" />
+            </svg></div>
+          <p class="lang-level" data-en="Fluent" data-fr="Courant">Fluent</p>
+        </div>
+        <div class="lang-card reveal">
+          <h4 class="lang-name" data-en="English" data-fr="Anglais">English</h4>
+          <div class="lang-circle"><svg viewBox="0 0 80 80">
+              <circle class="bg" cx="40" cy="40" r="36" />
+              <circle class="fill" cx="40" cy="40" r="36" data-pct="80" />
+            </svg></div>
+          <p class="lang-level" data-en="Professional" data-fr="Professionnel">Professional</p>
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="reveal">
+        <p class="section-label" data-en="Get In Touch" data-fr="Me Contacter">Get In Touch</p>
+        <h2 class="section-title" data-en="CONTACT" data-fr="CONTACT">CONTACT</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="contact-info-item"><svg viewBox="0 0 24 24">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg><span class="contact-info-text">mohamedbalali02@gmail.com</span></div>
+          <div class="contact-info-item"><svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg><span class="contact-info-text">+212 618 866 203</span></div>
+          <a href="https://www.linkedin.com/in/mohamed-mondir-balali-315859266/" target="_blank" rel="noopener"
+            class="contact-info-item"><svg viewBox="0 0 24 24">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg><span class="contact-info-text">LinkedIn</span></a>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <p>Mohamed Mondir BALALI &mdash; 2026</p>
+    </footer>
+  </main>
+  <div class="fs-modal-overlay" id="fsModal" onclick="closeFsModal(event)">
+    <div class="fs-modal-box" onclick="event.stopPropagation()">
+      <div class="fs-modal-header">
+        <h3 id="fsModalTitle"></h3><button class="fs-modal-close" onclick="closeFsModal()">&times;</button>
+      </div>
+      <div class="fs-modal-body" id="fsModalBody"></div>
+      <div class="fs-modal-desc" id="fsModalDesc"></div>
     </div>
   </div>
-</section>
-<section id="skills">
-  <div class="reveal"><p class="section-label" data-en="Technical Arsenal" data-fr="Arsenal Technique">Technical Arsenal</p><h2 class="section-title" data-en="SKILLS" data-fr="COMPETENCES">SKILLS</h2></div>
-  <div class="skills-grid">
-    <div class="skill-card reveal"><div class="skill-card-header"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><h3 data-en="Programming Languages" data-fr="Langages de Programmation">Programming Languages</h3></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Python</span><span class="skill-item-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">JavaScript</span><span class="skill-item-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">PHP</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Dart</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">C# / C</span><span class="skill-item-pct">65%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="65"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">SQL / R</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div></div>
-    <div class="skill-card reveal"><div class="skill-card-header"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20"/><path d="M17 2v20"/><path d="M2 12h20"/></svg><h3 data-en="Frameworks &amp; Tools" data-fr="Frameworks &amp; Outils">Frameworks &amp; Tools</h3></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">React / Next.js / Vue.js</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Angular / Spring Boot</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Flutter</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Unity / AR Development</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Streamlit / Data Tools</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Git / Postman / WordPress</span><span class="skill-item-pct">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div></div>
-    <div class="skill-card reveal"><div class="skill-card-header"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><h3 data-en="Sport &amp; Data Technologies" data-fr="Technologies Sport &amp; Data">Sport &amp; Data Technologies</h3></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Football Analytics</span><span class="skill-item-pct">80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">MediaPipe / Pose Detection</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">Statistical Analysis</span><span class="skill-item-pct">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div><div class="skill-item"><div class="skill-item-header"><span class="skill-item-name">AR for Rehabilitation</span><span class="skill-item-pct">70%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div><p class="section-label" style="margin-top:24px" data-en="Soft Skills" data-fr="Competences Douces">Soft Skills</p><div class="soft-skills-tags" style="margin-top:12px"><span class="soft-tag" data-en="Communication" data-fr="Communication">Communication</span><span class="soft-tag" data-en="Adaptability" data-fr="Adaptabilite">Adaptability</span><span class="soft-tag" data-en="Teamwork" data-fr="Travail d'equipe">Teamwork</span><span class="soft-tag" data-en="Punctuality" data-fr="Ponctualite">Punctuality</span></div></div>
-  </div>
-</section>
-<section id="experience">
-  <div class="reveal"><p class="section-label" data-en="Career Path" data-fr="Parcours Professionnel">Career Path</p><h2 class="section-title" data-en="EXPERIENCE" data-fr="EXPERIENCE">EXPERIENCE</h2></div>
-  <div class="exp-list">
-    <!-- <div class="exp-card reveal"><div class="exp-date">Jul - Sep 2025</div><div><h3 class="exp-role" data-en="Observation Internship" data-fr="Stage d'observation">Observation Internship</h3><p class="exp-org">Raja Club Athletic</p><p class="exp-desc" data-en="Immersed in the professional environment of one of Morocco's most prestigious football clubs. Gained firsthand exposure to high-level sports operations, performance workflows, and technology integration within elite athletic organizations." data-fr="Immersion dans l'environnement professionnel de l'un des clubs de football les plus prestigieux du Maroc.">Immersed in the professional environment of one of Morocco's most prestigious football clubs. Gained firsthand exposure to high-level sports operations, performance workflows, and technology integration within elite athletic organizations.</p><div class="exp-techs"><span class="exp-tech-tag">Sport Operations</span><span class="exp-tech-tag">Performance Analysis</span></div></div></div> -->
-    <div class="exp-card reveal"><div class="exp-date">Jul - Sep 2024</div><div><h3 class="exp-role" data-en="Angular / Spring Boot Developer" data-fr="Developpeur Angular / Spring Boot">Angular / Spring Boot Developer</h3><p class="exp-org">Amasoft MAROC</p><p class="exp-desc" data-en="Contributed to designing a comprehensive web application for school management. Built modular Angular frontend components and robust Spring Boot backend services with RESTful APIs." data-fr="Contribution a la conception d'une application web complete pour la gestion scolaire avec Angular et Spring Boot.">Contributed to designing a comprehensive web application for school management. Built modular Angular frontend components and robust Spring Boot backend services with RESTful APIs.</p><div class="exp-techs"><span class="exp-tech-tag">Angular</span><span class="exp-tech-tag">Spring Boot</span><span class="exp-tech-tag">REST API</span><span class="exp-tech-tag">SQL</span></div></div></div>
-    <div class="exp-card reveal"><div class="exp-date">Mar - Jun 2024</div><div><h3 class="exp-role" data-en="AR Developer" data-fr="Developpeur Realite Augmentee">AR Developer</h3><p class="exp-org">Maghreb Rayonnage</p><p class="exp-desc" data-en="Developed a mobile augmented reality application using Unity and C# that projects 3D shelving models into real-world environments, enabling clients to visualize industrial racking solutions in situ." data-fr="Developpement d'une application mobile de realite augmentee avec Unity et C#.">Developed a mobile augmented reality application using Unity and C# that projects 3D shelving models into real-world environments, enabling clients to visualize industrial racking solutions in situ.</p><div class="exp-techs"><span class="exp-tech-tag">Unity</span><span class="exp-tech-tag">C#</span><span class="exp-tech-tag">AR</span><span class="exp-tech-tag">3D Modeling</span></div></div></div>
-    <div class="exp-card reveal"><div class="exp-date">Apr - Jun 2023</div><div><h3 class="exp-role" data-en="Full-Stack Developer Assistant (PFE)" data-fr="Assistant Developpeur Full-Stack (PFE)">Full-Stack Developer Assistant (PFE)</h3><p class="exp-org">Sapilog SARL</p><p class="exp-desc" data-en="Built AppFerri: a dual-platform solution with a mobile product catalog (Flutter/PHP) and a web administration panel (HTML, CSS, JS, PHP) for managing app content and data." data-fr="Construction d'AppFerri : solution double-plateforme avec un catalogue mobile (Flutter/PHP) et un panneau d'administration web.">Built AppFerri: a dual-platform solution with a mobile product catalog (Flutter/PHP) and a web administration panel (HTML, CSS, JS, PHP) for managing app content and data.</p><div class="exp-techs"><span class="exp-tech-tag">Flutter</span><span class="exp-tech-tag">PHP</span><span class="exp-tech-tag">JavaScript</span><span class="exp-tech-tag">HTML/CSS</span></div></div></div>
-  </div>
-</section>
-<section id="projects">
-  <div class="reveal"><p class="section-label" data-en="Featured Work" data-fr="Travaux Realises">Featured Work</p><h2 class="section-title" data-en="PROJECTS" data-fr="PROJETS">PROJECTS</h2></div>
-  <div class="projects-grid">
-    <div class="project-card reveal"><div class="project-img project-video-wrap" onclick="openVideoModal('Squat Analyzer','videos/Squat Analyzer.mp4','Computer vision app analyzing squat technique via YOLOv8-pose.')"><svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><circle cx="150" cy="55" r="8" fill="none" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="63" x2="150" y2="95" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="75" x2="130" y2="85" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="75" x2="170" y2="85" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="95" x2="135" y2="120" stroke="#00aaff" stroke-width="2"/><line x1="150" y1="95" x2="165" y2="120" stroke="#00aaff" stroke-width="2"/><circle cx="150" cy="95" r="3" fill="#c41e2a"/><text x="178" y="98" fill="#c41e2a" font-family="monospace" font-size="10">82</text><rect x="230" y="30" width="140" height="55" rx="4" fill="#222"/><polyline points="240,70 260,60 280,50 300,55 320,40 340,45 360,42" fill="none" stroke="#c41e2a" stroke-width="1.5"/><rect x="230" y="100" width="140" height="55" rx="4" fill="#222"/><rect x="245" y="130" width="8" height="15" fill="#00cc88" rx="1"/><rect x="260" y="122" width="8" height="23" fill="#00cc88" rx="1" opacity=".8"/><rect x="275" y="115" width="8" height="30" fill="#00cc88" rx="1" opacity=".6"/><rect x="290" y="125" width="8" height="20" fill="#00cc88" rx="1"/><rect x="305" y="118" width="8" height="27" fill="#00cc88" rx="1"/><text x="80" y="160" fill="#c41e2a" font-family="monospace" font-size="9" text-anchor="middle">DEPTH OK</text></svg><div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div></div><div class="project-body"><h3 class="project-title" data-en="Squat Analyzer - Computer Vision" data-fr="Analyseur de Squat - Vision par Ordinateur">Squat Analyzer - Computer Vision</h3><p class="project-desc" data-en="Real-time squat analysis using YOLOv8 pose estimation with joint angle computation, depth classification, symmetry detection, and automated coaching feedback." data-fr="Analyse de squat en temps reel avec YOLOv8.">Real-time squat analysis using YOLOv8 pose estimation with joint angle computation, depth classification, symmetry detection, and automated coaching feedback.</p><div class="project-stack"><span class="project-stack-tag">YOLOv8</span><span class="project-stack-tag">React.js</span><span class="project-stack-tag">FastAPI</span><span class="project-stack-tag">OpenCV</span><span class="project-stack-tag">Python</span></div></div></div>
-    <div class="project-card reveal"><div class="project-img project-video-wrap" onclick="openVideoModal('Aji Tssourte','videos/aji Tsourte.mp4','Digital platform to combat sedentary lifestyles in young adults.')"><svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="155" y="20" width="90" height="160" rx="12" fill="#222" stroke="#444"/><rect x="163" y="35" width="74" height="120" rx="4" fill="#1a2744"/><circle cx="200" cy="65" r="12" fill="none" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="77" x2="200" y2="105" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="85" x2="185" y2="95" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="85" x2="215" y2="95" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="105" x2="188" y2="125" stroke="#3b82f6" stroke-width="1.5"/><line x1="200" y1="105" x2="212" y2="125" stroke="#3b82f6" stroke-width="1.5"/><text x="200" y="145" fill="#3b82f6" font-family="Bebas Neue" font-size="10" text-anchor="middle">AJI TSSOURTE</text><rect x="30" y="40" width="110" height="50" rx="6" fill="#222"/><text x="85" y="58" fill="#3b82f6" font-family="monospace" font-size="8" text-anchor="middle">Auto-Bilan</text><rect x="40" y="68" width="30" height="4" rx="2" fill="#c41e2a"/><rect x="75" y="68" width="20" height="4" rx="2" fill="#3b82f6"/><rect x="260" y="40" width="110" height="50" rx="6" fill="#222"/><text x="315" y="58" fill="#3b82f6" font-family="monospace" font-size="8" text-anchor="middle">Programme</text><rect x="270" y="68" width="90" height="4" rx="2" fill="#00cc88"/><rect x="260" y="110" width="110" height="50" rx="6" fill="#222"/><text x="315" y="128" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">Progress</text><rect x="270" y="136" width="20" height="16" fill="#c41e2a" rx="1" opacity=".4"/><rect x="295" y="130" width="20" height="22" fill="#c41e2a" rx="1" opacity=".6"/><rect x="320" y="124" width="20" height="28" fill="#c41e2a" rx="1" opacity=".8"/><rect x="345" y="118" width="20" height="34" fill="#c41e2a" rx="1"/></svg><div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div></div><div class="project-body"><h3 class="project-title">Aji Tssourte</h3><p class="project-desc" data-en="Sport-health platform reducing sedentary behavior through personalized programs, validated assessments, safety detection, and adaptive progress tracking for young adults." data-fr="Plateforme sport-sante reduisant la sedentarite.">Sport-health platform reducing sedentary behavior through personalized programs, validated assessments, safety detection, and adaptive progress tracking for young adults.</p><div class="project-stack"><span class="project-stack-tag">UX Design</span><span class="project-stack-tag">Mobile App</span><span class="project-stack-tag">Sport Science</span><span class="project-stack-tag">Figma</span></div></div></div>
-    <div class="project-card reveal"><div class="project-img project-video-wrap" onclick="openVideoModal('Back2Play','videos/Back2play.mp4','Immersive AR solution for sports rehabilitation.')"><svg viewBox="0 0 400 200"><rect x="130" y="5" width="140" height="190" rx="16" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/><rect x="140" y="25" width="120" height="150" rx="4" fill="#111"/><circle cx="200" cy="60" r="8" fill="none" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="68" x2="200" y2="100" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="80" x2="180" y2="90" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="80" x2="220" y2="90" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="100" x2="185" y2="125" stroke="#c41e2a" stroke-width="2"/><line x1="200" y1="100" x2="215" y2="125" stroke="#c41e2a" stroke-width="2"/><circle cx="200" cy="60" r="3" fill="#c41e2a"/><circle cx="200" cy="80" r="3" fill="#c41e2a" opacity=".7"/><circle cx="180" cy="90" r="3" fill="#c41e2a" opacity=".7"/><circle cx="220" cy="90" r="3" fill="#c41e2a" opacity=".7"/><circle cx="200" cy="100" r="3" fill="#c41e2a"/><circle cx="185" cy="125" r="3" fill="#c41e2a" opacity=".7"/><circle cx="215" cy="125" r="3" fill="#c41e2a" opacity=".7"/><rect x="30" y="50" width="80" height="100" rx="6" fill="#1a1a1a" stroke="#333" stroke-width=".5"/><text x="70" y="75" fill="#c41e2a" font-family="monospace" font-size="9" text-anchor="middle">ANGLE: 92</text><text x="70" y="95" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">REPS: 5/10</text><text x="70" y="115" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">SCORE: 87%</text></svg><div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div></div><div class="project-body"><h3 class="project-title">Back2Play</h3><p class="project-desc" data-en="Immersive AR solution for sports rehabilitation. Uses Unity, MediaPipe, and Python to guide patients through post-injury exercises with a 3D avatar, real-time posture feedback, and performance tracking." data-fr="Solution AR immersive pour la reeducation sportive.">Immersive AR solution for sports rehabilitation. Uses Unity, MediaPipe, and Python to guide patients through post-injury exercises with a 3D avatar, real-time posture feedback, and performance tracking.</p><div class="project-stack"><span class="project-stack-tag">Unity</span><span class="project-stack-tag">MediaPipe</span><span class="project-stack-tag">Python</span><span class="project-stack-tag">AR</span></div></div></div>
-    <div class="project-card reveal"><div class="project-img project-video-wrap" onclick="openVideoModal('AppFerri - Droguerie Ferri','videos/AppFerri.mp4','Flutter mobile product catalog for Droguerie Ferri.')"><svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="145" y="15" width="80" height="150" rx="10" fill="#222" stroke="#444" stroke-width="1"/><rect x="152" y="28" width="66" height="110" rx="3" fill="#e8e8e8"/><text x="185" y="55" fill="#333" font-family="Bebas Neue" font-size="7" text-anchor="middle">Droguerie</text><text x="185" y="67" fill="#333" font-family="Bebas Neue" font-size="10" text-anchor="middle">FERRI</text><rect x="160" y="80" width="50" height="6" rx="2" fill="#ccc"/><rect x="160" y="92" width="50" height="6" rx="2" fill="#ccc"/><rect x="160" y="104" width="50" height="6" rx="2" fill="#ccc"/><rect x="167" y="118" width="36" height="12" rx="3" fill="#1a8a6a"/><text x="185" y="127" fill="#fff" font-family="monospace" font-size="6" text-anchor="middle">valider</text><rect x="20" y="30" width="110" height="70" rx="6" fill="#222"/><rect x="28" y="38" width="94" height="10" rx="2" fill="#333"/><text x="75" y="46" fill="#888" font-family="monospace" font-size="6" text-anchor="middle">Gestion des produits</text><rect x="28" y="54" width="94" height="4" rx="1" fill="#444"/><rect x="28" y="62" width="70" height="4" rx="1" fill="#444"/><rect x="28" y="70" width="94" height="4" rx="1" fill="#444"/><rect x="260" y="30" width="110" height="70" rx="6" fill="#222"/><rect x="268" y="38" width="94" height="10" rx="2" fill="#333"/><text x="315" y="46" fill="#888" font-family="monospace" font-size="6" text-anchor="middle">Gestion utilisateurs</text><rect x="268" y="54" width="94" height="4" rx="1" fill="#444"/><rect x="268" y="62" width="70" height="4" rx="1" fill="#444"/><text x="200" y="185" fill="#888" font-family="monospace" font-size="8" text-anchor="middle">Flutter + PHP Admin Panel</text></svg><div class="play-btn"><svg viewBox="0 0 24 24" width="48" height="48"><circle cx="12" cy="12" r="11" fill="rgba(196,30,42,.85)"/><polygon points="10,7 10,17 18,12" fill="#fff"/></svg></div></div><div class="project-body"><h3 class="project-title">AppFerri</h3><p class="project-desc" data-en="Dual-platform solution for Droguerie Ferri: a Flutter mobile product catalog with user registration, browsing, and ordering." data-fr="Solution double-plateforme pour Droguerie Ferri.">Dual-platform solution for Droguerie Ferri: a Flutter mobile product catalog with user registration, browsing, and ordering.</p><div class="project-stack"><span class="project-stack-tag">Flutter</span><span class="project-stack-tag">PHP</span><span class="project-stack-tag">MySQL</span></div></div></div>
-    <div class="project-card reveal"><div class="project-img project-video-wrap"><svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="20" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="130" y="20" width="100" height="60" rx="4" fill="#222"/><rect x="240" y="20" width="140" height="60" rx="4" fill="#222"/><rect x="30" y="55" width="12" height="20" fill="#c41e2a" rx="2"/><rect x="48" y="45" width="12" height="30" fill="#c41e2a" rx="2" opacity=".8"/><rect x="66" y="50" width="12" height="25" fill="#c41e2a" rx="2" opacity=".6"/><rect x="84" y="40" width="12" height="35" fill="#c41e2a" rx="2" opacity=".7"/><polyline points="145,65 160,50 175,55 190,40 205,45 220,35" fill="none" stroke="#c41e2a" stroke-width="2"/><text x="310" y="55" fill="#c41e2a" font-family="Bebas Neue" font-size="24" text-anchor="middle">89.3</text></svg></div><div class="project-body"><h3 class="project-title">FootyMetrics</h3><p class="project-desc" data-en="A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts." data-fr="Application web d'analyse des donnees de performance football.">A web application for football performance data analysis. Provides dashboards for visualizing player statistics, team performance metrics, and match analytics with interactive charts.</p><div class="project-stack"><span class="project-stack-tag">Python</span><span class="project-stack-tag">Streamlit</span><span class="project-stack-tag">Data Analysis</span><span class="project-stack-tag">Pandas</span></div></div></div>
-    <div class="project-card reveal"><div class="project-img project-video-wrap"><svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160" fill="none" stroke="#c41e2a" stroke-width="2.5" opacity=".8"/><path d="M40,160 Q80,160 120,140 Q160,100 200,60 Q240,100 280,140 Q320,160 360,160 L360,170 L40,170 Z" fill="#c41e2a" opacity=".08"/><line x1="40" y1="170" x2="360" y2="170" stroke="#444"/><line x1="40" y1="40" x2="40" y2="170" stroke="#444"/><circle cx="200" cy="65" r="3" fill="#c41e2a"/><text x="200" y="30" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">ANOVA / Chi-Square / t-test</text></svg></div><div class="project-body"><h3 class="project-title" data-en="Statistical Study - Ed. Tech in Sport" data-fr="Etude Statistique - Tech Educatives en Sport">Statistical Study - Ed. Tech in Sport</h3><p class="project-desc" data-en="Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests." data-fr="Analyse statistique complete des technologies educatives en sciences du sport.">Comprehensive statistical analysis of educational technologies in sport sciences. Applied Chi-square, t-test, ANOVA, and Fisher tests for inferential data processing and hypothesis testing.</p><div class="project-stack"><span class="project-stack-tag">R</span><span class="project-stack-tag">Statistics</span><span class="project-stack-tag">ANOVA</span><span class="project-stack-tag">Chi-Square</span></div></div></div>
-    <div class="project-card reveal"><div class="project-img project-video-wrap"><svg viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" rx="8" fill="#1a1a1a" stroke="#333"/><rect x="30" y="30" width="160" height="80" rx="6" fill="#222"/><rect x="210" y="30" width="160" height="80" rx="6" fill="#222"/><text x="110" y="60" fill="#004d98" font-family="Bebas Neue" font-size="16" text-anchor="middle">FCB</text><text x="290" y="60" fill="#fff" font-family="Bebas Neue" font-size="16" text-anchor="middle">RMA</text><text x="110" y="85" fill="#c41e2a" font-family="monospace" font-size="11" text-anchor="middle">76.47%</text><text x="290" y="85" fill="#c41e2a" font-family="monospace" font-size="11" text-anchor="middle">52.94%</text><text x="200" y="145" fill="#888" font-family="monospace" font-size="9" text-anchor="middle">P(V|Home) via Bayes</text><rect x="80" y="155" width="240" height="6" rx="3" fill="#333"/><rect x="80" y="155" width="180" height="6" rx="3" fill="#c41e2a" opacity=".6"/></svg></div><div class="project-body"><h3 class="project-title" data-en="Clasico Winner Prediction (Bayes)" data-fr="Prediction du Vainqueur du Clasico (Bayes)">Clasico Winner Prediction (Bayes)</h3><p class="project-desc" data-en="Bayesian probability model predicting the next Clasico outcome using La Liga 2024-2025 statistics." data-fr="Modele bayesien pour predire le Clasico.">Bayesian probability model predicting the next Clasico outcome using La Liga 2024-2025 statistics, analyzing home/away performance for FC Barcelona and Real Madrid.</p><div class="project-stack"><span class="project-stack-tag">Bayes</span><span class="project-stack-tag">Statistics</span><span class="project-stack-tag">Football Analytics</span></div></div></div>
-  </div>
-</section>
-<section id="certifications">
-  <div class="reveal"><p class="section-label" data-en="Credentials" data-fr="Certifications">Credentials</p><h2 class="section-title" data-en="CERTIFICATIONS" data-fr="CERTIFICATIONS">CERTIFICATIONS</h2></div>
-  <div class="cert-grid">
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('CERTIFICATION OF COMPLETION : WORKSHOP','certificates/Workshop.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">CERTIFICATION OF COMPLETION : WORKSHOP</h4><p class="cert-org">Catapult</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('IBM Full Stack Software Developer','certificates/Coursera IBM Full Stack Software.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">IBM Full Stack Software Developer</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Developing AI Applications with Python and Flask','certificates/Coursera Developing AI Applications with Python and Flask.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Developing AI Applications with Python and Flask</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Developing Back-End Apps with Node.js and Express','certificates/Coursera Developing Back-End Apps with Node.js and Express.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Developing Back-End Apps with Node.js and Express</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Developing Front-End Apps with React','certificates/Coursera Developing Front-End Apps with React.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Developing Front-End Apps with React</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Django Application Development with SQL','certificates/Coursera Django Application Development with SQL and.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Django Application Development with SQL</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Django Web Framework','certificates/Coursera Django Web Framework.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Django Web Framework</h4><p class="cert-org">Coursera / Meta</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Getting Started with Git and GitHub','certificates/Coursera Getting Started with Git and GitHub.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Getting Started with Git and GitHub</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Linux Commands and Shell Scripting','certificates/Coursera Hands-on Introduction to Linux Commands and Shell Scripting.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Hands-on Introduction to Linux Commands and Shell Scripting</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Introduction to Cloud Computing','certificates/Coursera Introduction to Cloud Computing.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Introduction to Cloud Computing</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Introduction to Software Engineering','certificates/Coursera Introduction to Software Engineering.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Introduction to Software Engineering</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Web Development with HTML, CSS, JavaScript','certificates/Coursera Introduction to Web Development with HTML, CSS, JavaScript.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Introduction to Web Development with HTML, CSS, JavaScript</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Programming in Python','certificates/Coursera Pragramming in Python by Meta.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Programming in Python</h4><p class="cert-org">Coursera / Meta</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Python for Data Science, AI &amp; Development','certificates/Coursera Python for Data Science, AI & Development.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Python for Data Science, AI &amp; Development</h4><p class="cert-org">Coursera / IBM</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('The Data Scientist\'s Toolbox','certificates/Coursera The Data Scientists ToolBox.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">The Data Scientist's Toolbox</h4><p class="cert-org">Coursera / Johns Hopkins</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Algebra and Differential Calculus for Data Science','certificates/Coursera Algebra and Differential Calculus for Data Science.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Algebra and Differential Calculus for Data Science</h4><p class="cert-org">Coursera</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('CS50 Introduction to Programming With Python','certificates/CS50P.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">CS50 Introduction to Programming With Python</h4><p class="cert-org">Harvard / CS50</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Responsive Web Design','certificates/freecodecamp Responsive web design certificate.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Responsive Web Design</h4><p class="cert-org">freeCodeCamp</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-    <div class="cert-card cert-link reveal" onclick="openPdfModal('Athlete 365: Sports Coaching','certificates/Sport Coaching Certificate.pdf')"><div class="cert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div><h4 class="cert-title">Athlete 365: Sports Coaching</h4><p class="cert-org">International Olympic Committee</p><span class="cert-view" data-en="View Certificate ↗" data-fr="Voir le Certificat ↗">View Certificate ↗</span></div></div>
-  </div>
-</section>
-<section id="leadership">
-  <div class="reveal"><p class="section-label" data-en="Impact" data-fr="Impact">Impact</p><h2 class="section-title" data-en="VOLUNTEERING" data-fr="Volontariat">Volunteering</h2></div>
-  <div class="org-card reveal"><h3 class="org-role">IT VOLUNTEER</h3><p class="org-name">CAF WAFCON</p><p class="org-date">Jul 2025 - Jul 2025</p><p style="margin-top:16px;font-size:.9rem;line-height:1.7;color:var(--gray-light)" data-en="Provided critical technical support during the Women's Africa Cup of Nations. Resolved hardware and software issues, configured network systems, and assisted with broadcast infrastructure ensuring seamless tournament operations." data-fr="Support technique critique lors de la CAN Feminine.">Provided critical technical support during the Women's Africa Cup of Nations. Resolved hardware and software issues, configured network systems, and assisted with broadcast infrastructure ensuring seamless tournament operations.</p></div></br>
-  <div class="org-card reveal"><h3 class="org-role">VICE TEAM LEADER</h3><p class="org-name">Enactus I2S Settat</p><p class="org-date">Feb 2025 - Jun 2025</p><p style="margin-top:16px;font-size:.9rem;line-height:1.7;color:var(--gray-light)" data-en="Led collaborative initiatives within Enactus, fostering social entrepreneurship and team coordination. Managed project timelines, mentored team members, and represented the organization in regional competitions." data-fr="Direction d'initiatives collaboratives au sein d'Enactus.">Led collaborative initiatives within Enactus, fostering social entrepreneurship and team coordination. Managed project timelines, mentored team members, and represented the organization in regional competitions.</p></div>
-</section>
-<section id="languages">
-  <div class="reveal"><p class="section-label" data-en="Communication" data-fr="Communication">Communication</p><h2 class="section-title" data-en="LANGUAGES" data-fr="LANGUES">LANGUAGES</h2></div>
-  <div class="lang-grid">
-    <div class="lang-card reveal"><h4 class="lang-name" data-en="Arabic" data-fr="Arabe">Arabic</h4><div class="lang-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36" data-pct="95"/></svg></div><p class="lang-level" data-en="Native" data-fr="Langue Maternelle">Native</p></div>
-    <div class="lang-card reveal"><h4 class="lang-name" data-en="French" data-fr="Francais">French</h4><div class="lang-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36" data-pct="90"/></svg></div><p class="lang-level" data-en="Fluent" data-fr="Courant">Fluent</p></div>
-    <div class="lang-card reveal"><h4 class="lang-name" data-en="English" data-fr="Anglais">English</h4><div class="lang-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36" data-pct="80"/></svg></div><p class="lang-level" data-en="Professional" data-fr="Professionnel">Professional</p></div>
-  </div>
-</section>
-<section id="contact">
-  <div class="reveal"><p class="section-label" data-en="Get In Touch" data-fr="Me Contacter">Get In Touch</p><h2 class="section-title" data-en="CONTACT" data-fr="CONTACT">CONTACT</h2></div>
-  <div class="contact-grid"><div class="reveal">
-    <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="contact-info-text">mohamedbalali02@gmail.com</span></div>
-    <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="contact-info-text">+212 618 866 203</span></div>
-    <a href="https://www.linkedin.com/in/mohamed-mondir-balali-315859266/" target="_blank" rel="noopener" class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span class="contact-info-text">LinkedIn</span></a>
-  </div></div>
-</section>
-<footer class="footer"><p>Mohamed Mondir BALALI &mdash; 2026</p></footer>
-</main>
-<div class="fs-modal-overlay" id="fsModal" onclick="closeFsModal(event)"><div class="fs-modal-box" onclick="event.stopPropagation()"><div class="fs-modal-header"><h3 id="fsModalTitle"></h3><button class="fs-modal-close" onclick="closeFsModal()">&times;</button></div><div class="fs-modal-body" id="fsModalBody"></div><div class="fs-modal-desc" id="fsModalDesc"></div></div></div>
-<script>
-(function(){'use strict';
-var canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');var w,h,particles=[];
-function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight}
-function initP(){particles=[];var c=Math.min(Math.floor(w*h/18000),80);for(var i=0;i<c;i++)particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5})}
-function drawGrid(){ctx.strokeStyle='rgba(196,30,42,.04)';ctx.lineWidth=.5;for(var x=0;x<w;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(var y=0;y<h;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}}
-function drawP(){var md=120;for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(196,30,42,.35)';ctx.fill();for(var j=i+1;j<particles.length;j++){var q=particles[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);if(d<md){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(196,30,42,'+(.12*(1-d/md))+')';ctx.lineWidth=.5;ctx.stroke()}}}}
-function loop(){ctx.clearRect(0,0,w,h);drawGrid();drawP();requestAnimationFrame(loop)}
-resize();initP();loop();addEventListener('resize',function(){resize();initP()});
-var sections=document.querySelectorAll('section'),navLinks=document.querySelectorAll('.sidebar-nav a');
-addEventListener('scroll',function(){var cur='';sections.forEach(function(s){if(scrollY>=s.offsetTop-200)cur=s.id});navLinks.forEach(function(a){a.classList.toggle('active',a.dataset.section===cur)})},{passive:true});
-var sidebar=document.getElementById('sidebar'),sOverlay=document.getElementById('sidebarOverlay');
-function closeSB(){sidebar.classList.remove('open');sOverlay.classList.remove('active')}
-document.getElementById('mobileToggle').onclick=function(){sidebar.classList.toggle('open');sOverlay.classList.toggle('active')};
-sOverlay.onclick=closeSB;navLinks.forEach(function(a){a.addEventListener('click',closeSB)});
-new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15}).observe&&document.querySelectorAll('.reveal').forEach(function(el){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15}).observe(el)});
-new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.style.width=e.target.dataset.width+'%'})},{threshold:.3}).observe&&document.querySelectorAll('.skill-bar-fill').forEach(function(b){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.style.width=e.target.dataset.width+'%'})},{threshold:.3}).observe(b)});
-var circ=2*Math.PI*36;
-document.querySelectorAll('.lang-circle .fill').forEach(function(c){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var pct=parseFloat(e.target.dataset.pct);e.target.style.strokeDashoffset=circ-(circ*pct/100)}})},{threshold:.5}).observe(c)});
-var lang='en';document.getElementById('langToggle').onclick=function(){lang=lang==='en'?'fr':'en';document.querySelectorAll('[data-en]').forEach(function(el){el.textContent=el.getAttribute('data-'+lang)});document.documentElement.lang=lang==='en'?'en':'fr'};
-document.getElementById('themeToggle').onclick=function(){var t=document.documentElement;var isDark=t.getAttribute('data-theme')==='dark';t.setAttribute('data-theme',isDark?'light':'dark');document.getElementById('themeIcon').innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'};
-})();
-// Full-Page Flame & Ember System
-(function(){var fc=document.getElementById('flame-canvas');if(!fc)return;
-var fctx=fc.getContext('2d'),fw,fh;
-var embers=[],flames=[],glows=[];
-var time=0,breathCycle=0;
+  <script>
+    (function () {
+      'use strict';
+      var canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d'); var w, h, particles = [];
+      function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight }
+      function initP() { particles = []; var c = Math.min(Math.floor(w * h / 18000), 80); for (var i = 0; i < c; i++)particles.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4, r: Math.random() * 1.5 + .5 }) }
+      function drawGrid() { ctx.strokeStyle = 'rgba(196,30,42,.04)'; ctx.lineWidth = .5; for (var x = 0; x < w; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke() } for (var y = 0; y < h; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke() } }
+      function drawP() { var md = 120; for (var i = 0; i < particles.length; i++) { var p = particles[i]; p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > w) p.vx *= -1; if (p.y < 0 || p.y > h) p.vy *= -1; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(196,30,42,.35)'; ctx.fill(); for (var j = i + 1; j < particles.length; j++) { var q = particles[j], dx = p.x - q.x, dy = p.y - q.y, d = Math.sqrt(dx * dx + dy * dy); if (d < md) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.strokeStyle = 'rgba(196,30,42,' + (.12 * (1 - d / md)) + ')'; ctx.lineWidth = .5; ctx.stroke() } } } }
+      function loop() { ctx.clearRect(0, 0, w, h); drawGrid(); drawP(); requestAnimationFrame(loop) }
+      resize(); initP(); loop(); addEventListener('resize', function () { resize(); initP() });
+      var sections = document.querySelectorAll('section'), navLinks = document.querySelectorAll('.sidebar-nav a');
+      addEventListener('scroll', function () { var cur = ''; sections.forEach(function (s) { if (scrollY >= s.offsetTop - 200) cur = s.id }); navLinks.forEach(function (a) { a.classList.toggle('active', a.dataset.section === cur) }) }, { passive: true });
+      var sidebar = document.getElementById('sidebar'), sOverlay = document.getElementById('sidebarOverlay');
+      function closeSB() { sidebar.classList.remove('open'); sOverlay.classList.remove('active') }
+      document.getElementById('mobileToggle').onclick = function () { sidebar.classList.toggle('open'); sOverlay.classList.toggle('active') };
+      sOverlay.onclick = closeSB; navLinks.forEach(function (a) { a.addEventListener('click', closeSB) });
+      new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible') }) }, { threshold: .15 }).observe && document.querySelectorAll('.reveal').forEach(function (el) { new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible') }) }, { threshold: .15 }).observe(el) });
+      new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.style.width = e.target.dataset.width + '%' }) }, { threshold: .3 }).observe && document.querySelectorAll('.skill-bar-fill').forEach(function (b) { new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.style.width = e.target.dataset.width + '%' }) }, { threshold: .3 }).observe(b) });
+      var circ = 2 * Math.PI * 36;
+      document.querySelectorAll('.lang-circle .fill').forEach(function (c) { new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var pct = parseFloat(e.target.dataset.pct); e.target.style.strokeDashoffset = circ - (circ * pct / 100) } }) }, { threshold: .5 }).observe(c) });
+      var lang = 'en'; document.getElementById('langToggle').onclick = function () { lang = lang === 'en' ? 'fr' : 'en'; document.querySelectorAll('[data-en]').forEach(function (el) { el.textContent = el.getAttribute('data-' + lang) }); document.documentElement.lang = lang === 'en' ? 'en' : 'fr' };
+      document.getElementById('themeToggle').onclick = function () { var t = document.documentElement; var isDark = t.getAttribute('data-theme') === 'dark'; t.setAttribute('data-theme', isDark ? 'light' : 'dark'); document.getElementById('themeIcon').innerHTML = isDark ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>' : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>' };
+    })();
+    // Full-Page Flame & Ember System
+    (function () {
+      var fc = document.getElementById('flame-canvas'); if (!fc) return;
+      var fctx = fc.getContext('2d'), fw, fh;
+      var embers = [], flames = [], glows = [];
+      var time = 0, breathCycle = 0;
 
-function fResize(){fw=fc.width=innerWidth;fh=fc.height=innerHeight}
+      function fResize() { fw = fc.width = innerWidth; fh = fc.height = innerHeight }
 
-// Embers — small bright particles rising across the page
-function spawnEmber(){
-  return{x:Math.random()*fw,y:fh+Math.random()*20,
-    vx:(Math.random()-.5)*0.5,vy:-(Math.random()*1.2+0.3),
-    r:Math.random()*2.2+0.4,life:0,maxLife:Math.random()*280+120,
-    phase:Math.random()*Math.PI*2,bright:Math.random()>0.5,
-    drift:Math.random()*2-1};
-}
-// Flame wisps — larger soft blobs that float up like heat distortion
-function spawnFlame(){
-  var startX=Math.random()*fw;
-  var startY=fh*(0.6+Math.random()*0.4);
-  return{x:startX,y:startY,
-    vx:(Math.random()-.5)*0.3,vy:-(Math.random()*0.7+0.15),
-    r:Math.random()*18+6,life:0,maxLife:Math.random()*160+80,
-    phase:Math.random()*Math.PI*2,turbulence:Math.random()*1.5-0.75};
-}
-// Glows — very large, slow, subtle warm light pools
-function spawnGlow(){
-  return{x:Math.random()*fw,y:fh*(0.4+Math.random()*0.6),
-    vx:(Math.random()-.5)*0.08,vy:-(Math.random()*0.12+0.03),
-    r:Math.random()*80+40,life:0,maxLife:Math.random()*400+200,
-    phase:Math.random()*Math.PI*2};
-}
+      // Embers — small bright particles rising across the page
+      function spawnEmber() {
+        return {
+          x: Math.random() * fw, y: fh + Math.random() * 20,
+          vx: (Math.random() - .5) * 0.5, vy: -(Math.random() * 1.2 + 0.3),
+          r: Math.random() * 2.2 + 0.4, life: 0, maxLife: Math.random() * 280 + 120,
+          phase: Math.random() * Math.PI * 2, bright: Math.random() > 0.5,
+          drift: Math.random() * 2 - 1
+        };
+      }
+      // Flame wisps — larger soft blobs that float up like heat distortion
+      function spawnFlame() {
+        var startX = Math.random() * fw;
+        var startY = fh * (0.6 + Math.random() * 0.4);
+        return {
+          x: startX, y: startY,
+          vx: (Math.random() - .5) * 0.3, vy: -(Math.random() * 0.7 + 0.15),
+          r: Math.random() * 18 + 6, life: 0, maxLife: Math.random() * 160 + 80,
+          phase: Math.random() * Math.PI * 2, turbulence: Math.random() * 1.5 - 0.75
+        };
+      }
+      // Glows — very large, slow, subtle warm light pools
+      function spawnGlow() {
+        return {
+          x: Math.random() * fw, y: fh * (0.4 + Math.random() * 0.6),
+          vx: (Math.random() - .5) * 0.08, vy: -(Math.random() * 0.12 + 0.03),
+          r: Math.random() * 80 + 40, life: 0, maxLife: Math.random() * 400 + 200,
+          phase: Math.random() * Math.PI * 2
+        };
+      }
 
-function init(){
-  embers=[];flames=[];glows=[];
-  var emberCount=Math.min(Math.floor(fw*fh/15000),60);
-  var flameCount=Math.min(Math.floor(fw*fh/40000),25);
-  for(var i=0;i<emberCount;i++){var e=spawnEmber();e.life=Math.random()*e.maxLife;e.y=Math.random()*fh;embers.push(e)}
-  for(var i=0;i<flameCount;i++){var f=spawnFlame();f.life=Math.random()*f.maxLife;flames.push(f)}
-  for(var i=0;i<6;i++){var g=spawnGlow();g.life=Math.random()*g.maxLife;glows.push(g)}
-}
+      function init() {
+        embers = []; flames = []; glows = [];
+        var emberCount = Math.min(Math.floor(fw * fh / 15000), 60);
+        var flameCount = Math.min(Math.floor(fw * fh / 40000), 25);
+        for (var i = 0; i < emberCount; i++) { var e = spawnEmber(); e.life = Math.random() * e.maxLife; e.y = Math.random() * fh; embers.push(e) }
+        for (var i = 0; i < flameCount; i++) { var f = spawnFlame(); f.life = Math.random() * f.maxLife; flames.push(f) }
+        for (var i = 0; i < 6; i++) { var g = spawnGlow(); g.life = Math.random() * g.maxLife; glows.push(g) }
+      }
 
-function draw(){
-  fctx.clearRect(0,0,fw,fh);
-  time++;breathCycle+=0.015;
-  var breathInt=0.7+Math.sin(breathCycle)*0.3;
+      function draw() {
+        fctx.clearRect(0, 0, fw, fh);
+        time++; breathCycle += 0.015;
+        var breathInt = 0.7 + Math.sin(breathCycle) * 0.3;
 
-  fctx.globalCompositeOperation='lighter';
+        fctx.globalCompositeOperation = 'lighter';
 
-  // === GLOWS — deep warm ambient pools ===
-  for(var i=0;i<glows.length;i++){var g=glows[i];
-    g.x+=g.vx+Math.sin(g.phase+time*0.003)*0.15;g.y+=g.vy;g.phase+=0.005;g.life++;
-    if(g.life>=g.maxLife||g.y<-g.r*2){glows[i]=spawnGlow();continue}
-    var prog=g.life/g.maxLife;
-    var a=Math.sin(prog*Math.PI)*0.045*breathInt;
-    var rad=g.r*(1+prog*0.5);
-    var gr=fctx.createRadialGradient(g.x,g.y,0,g.x,g.y,rad);
-    gr.addColorStop(0,'rgba(200,50,20,'+a+')');
-    gr.addColorStop(0.4,'rgba(140,25,10,'+a*0.5+')');
-    gr.addColorStop(1,'rgba(60,8,3,0)');
-    fctx.beginPath();fctx.arc(g.x,g.y,rad,0,Math.PI*2);fctx.fillStyle=gr;fctx.fill();
-  }
+        // === GLOWS — deep warm ambient pools ===
+        for (var i = 0; i < glows.length; i++) {
+          var g = glows[i];
+          g.x += g.vx + Math.sin(g.phase + time * 0.003) * 0.15; g.y += g.vy; g.phase += 0.005; g.life++;
+          if (g.life >= g.maxLife || g.y < -g.r * 2) { glows[i] = spawnGlow(); continue }
+          var prog = g.life / g.maxLife;
+          var a = Math.sin(prog * Math.PI) * 0.045 * breathInt;
+          var rad = g.r * (1 + prog * 0.5);
+          var gr = fctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, rad);
+          gr.addColorStop(0, 'rgba(200,50,20,' + a + ')');
+          gr.addColorStop(0.4, 'rgba(140,25,10,' + a * 0.5 + ')');
+          gr.addColorStop(1, 'rgba(60,8,3,0)');
+          fctx.beginPath(); fctx.arc(g.x, g.y, rad, 0, Math.PI * 2); fctx.fillStyle = gr; fctx.fill();
+        }
 
-  // === FLAME WISPS — soft rising heat ===
-  for(var i=0;i<flames.length;i++){var f=flames[i];
-    f.x+=f.vx+Math.sin(f.phase+time*0.02)*f.turbulence;
-    f.y+=f.vy;f.phase+=0.02;f.life++;
-    if(f.life>=f.maxLife||f.y<-f.r*2){flames[i]=spawnFlame();continue}
-    var prog=f.life/f.maxLife;
-    var a=Math.sin(prog*Math.PI)*0.12*breathInt;
-    a*=(0.8+Math.sin(f.phase*1.5)*0.2);
-    var rad=f.r*(0.6+prog*1.2);
-    var gf=fctx.createRadialGradient(f.x,f.y,0,f.x,f.y,rad);
-    if(prog<0.3){
-      gf.addColorStop(0,'rgba(255,180,50,'+a*0.7+')');
-      gf.addColorStop(0.35,'rgba(230,80,25,'+a*0.4+')');
-      gf.addColorStop(0.7,'rgba(180,30,10,'+a*0.15+')');
-      gf.addColorStop(1,'rgba(100,10,5,0)');
-    }else{
-      gf.addColorStop(0,'rgba(200,50,15,'+a*0.5+')');
-      gf.addColorStop(0.4,'rgba(140,25,10,'+a*0.2+')');
-      gf.addColorStop(1,'rgba(60,5,2,0)');
-    }
-    fctx.beginPath();fctx.arc(f.x+Math.sin(f.phase)*1.5,f.y,rad,0,Math.PI*2);fctx.fillStyle=gf;fctx.fill();
-  }
+        // === FLAME WISPS — soft rising heat ===
+        for (var i = 0; i < flames.length; i++) {
+          var f = flames[i];
+          f.x += f.vx + Math.sin(f.phase + time * 0.02) * f.turbulence;
+          f.y += f.vy; f.phase += 0.02; f.life++;
+          if (f.life >= f.maxLife || f.y < -f.r * 2) { flames[i] = spawnFlame(); continue }
+          var prog = f.life / f.maxLife;
+          var a = Math.sin(prog * Math.PI) * 0.12 * breathInt;
+          a *= (0.8 + Math.sin(f.phase * 1.5) * 0.2);
+          var rad = f.r * (0.6 + prog * 1.2);
+          var gf = fctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, rad);
+          if (prog < 0.3) {
+            gf.addColorStop(0, 'rgba(255,180,50,' + a * 0.7 + ')');
+            gf.addColorStop(0.35, 'rgba(230,80,25,' + a * 0.4 + ')');
+            gf.addColorStop(0.7, 'rgba(180,30,10,' + a * 0.15 + ')');
+            gf.addColorStop(1, 'rgba(100,10,5,0)');
+          } else {
+            gf.addColorStop(0, 'rgba(200,50,15,' + a * 0.5 + ')');
+            gf.addColorStop(0.4, 'rgba(140,25,10,' + a * 0.2 + ')');
+            gf.addColorStop(1, 'rgba(60,5,2,0)');
+          }
+          fctx.beginPath(); fctx.arc(f.x + Math.sin(f.phase) * 1.5, f.y, rad, 0, Math.PI * 2); fctx.fillStyle = gf; fctx.fill();
+        }
 
-  // === EMBERS — small bright rising particles ===
-  for(var i=0;i<embers.length;i++){var e=embers[i];
-    e.x+=e.vx+Math.sin(e.phase)*0.3*e.drift;
-    e.y+=e.vy;e.phase+=0.03;e.life++;
-    if(e.life>=e.maxLife||e.y<-15){embers[i]=spawnEmber();continue}
-    var prog=e.life/e.maxLife;
-    var fadeIn=Math.min(e.life/20,1);
-    var fadeOut=Math.min((e.maxLife-e.life)/30,1);
-    var a=fadeIn*fadeOut*(0.65+Math.sin(e.phase*2)*0.2)*breathInt;
-    if(e.bright){
-      var ge=fctx.createRadialGradient(e.x,e.y,0,e.x,e.y,e.r*2.5);
-      ge.addColorStop(0,'rgba(255,220,100,'+a*0.75+')');
-      ge.addColorStop(0.3,'rgba(255,140,40,'+a*0.4+')');
-      ge.addColorStop(0.6,'rgba(230,60,20,'+a*0.2+')');
-      ge.addColorStop(1,'rgba(139,21,32,0)');
-      fctx.beginPath();fctx.arc(e.x,e.y,e.r*2.5,0,Math.PI*2);fctx.fillStyle=ge;fctx.fill();
-    }else{
-      var ge2=fctx.createRadialGradient(e.x,e.y,0,e.x,e.y,e.r*1.8);
-      ge2.addColorStop(0,'rgba(230,50,40,'+a*0.55+')');
-      ge2.addColorStop(0.5,'rgba(180,25,15,'+a*0.25+')');
-      ge2.addColorStop(1,'rgba(80,10,5,0)');
-      fctx.beginPath();fctx.arc(e.x,e.y,e.r*1.8,0,Math.PI*2);fctx.fillStyle=ge2;fctx.fill();
-    }
-    // Hot core
-    fctx.beginPath();fctx.arc(e.x,e.y,e.r*0.3,0,Math.PI*2);
-    fctx.fillStyle='rgba(255,230,140,'+a*0.5+')';fctx.fill();
-  }
+        // === EMBERS — small bright rising particles ===
+        for (var i = 0; i < embers.length; i++) {
+          var e = embers[i];
+          e.x += e.vx + Math.sin(e.phase) * 0.3 * e.drift;
+          e.y += e.vy; e.phase += 0.03; e.life++;
+          if (e.life >= e.maxLife || e.y < -15) { embers[i] = spawnEmber(); continue }
+          var prog = e.life / e.maxLife;
+          var fadeIn = Math.min(e.life / 20, 1);
+          var fadeOut = Math.min((e.maxLife - e.life) / 30, 1);
+          var a = fadeIn * fadeOut * (0.65 + Math.sin(e.phase * 2) * 0.2) * breathInt;
+          if (e.bright) {
+            var ge = fctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.r * 2.5);
+            ge.addColorStop(0, 'rgba(255,220,100,' + a * 0.75 + ')');
+            ge.addColorStop(0.3, 'rgba(255,140,40,' + a * 0.4 + ')');
+            ge.addColorStop(0.6, 'rgba(230,60,20,' + a * 0.2 + ')');
+            ge.addColorStop(1, 'rgba(139,21,32,0)');
+            fctx.beginPath(); fctx.arc(e.x, e.y, e.r * 2.5, 0, Math.PI * 2); fctx.fillStyle = ge; fctx.fill();
+          } else {
+            var ge2 = fctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.r * 1.8);
+            ge2.addColorStop(0, 'rgba(230,50,40,' + a * 0.55 + ')');
+            ge2.addColorStop(0.5, 'rgba(180,25,15,' + a * 0.25 + ')');
+            ge2.addColorStop(1, 'rgba(80,10,5,0)');
+            fctx.beginPath(); fctx.arc(e.x, e.y, e.r * 1.8, 0, Math.PI * 2); fctx.fillStyle = ge2; fctx.fill();
+          }
+          // Hot core
+          fctx.beginPath(); fctx.arc(e.x, e.y, e.r * 0.3, 0, Math.PI * 2);
+          fctx.fillStyle = 'rgba(255,230,140,' + a * 0.5 + ')'; fctx.fill();
+        }
 
-  fctx.globalCompositeOperation='source-over';
-  requestAnimationFrame(draw);
-}
-fResize();init();draw();
-window.addEventListener('resize',function(){fResize();init()});
-})();
-// Modal functions
-function openVideoModal(t,v,d){var m=document.getElementById('fsModal');document.getElementById('fsModalTitle').textContent=t;document.getElementById('fsModalBody').innerHTML='<video controls autoplay><source src="'+v+'" type="video/mp4"></video>';document.getElementById('fsModalDesc').textContent=d;document.getElementById('fsModalDesc').style.display=d?'block':'none';m.classList.add('active');document.body.style.overflow='hidden'}
-function openPdfModal(t,p){var m=document.getElementById('fsModal');document.getElementById('fsModalTitle').textContent=t;document.getElementById('fsModalBody').innerHTML='<iframe src="'+p+'" title="'+t+'"></iframe>';document.getElementById('fsModalDesc').style.display='none';m.classList.add('active');document.body.style.overflow='hidden'}
-function closeFsModal(e){if(e&&e.target!==document.getElementById('fsModal'))return;var m=document.getElementById('fsModal');m.classList.remove('active');var v=m.querySelector('video');if(v)v.pause();document.getElementById('fsModalBody').innerHTML='';document.body.style.overflow=''}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFsModal()});
-</script>
+        fctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(draw);
+      }
+      fResize(); init(); draw();
+      window.addEventListener('resize', function () { fResize(); init() });
+    })();
+    // Modal functions
+    function openVideoModal(t, v, d) { var m = document.getElementById('fsModal'); document.getElementById('fsModalTitle').textContent = t; document.getElementById('fsModalBody').innerHTML = '<video controls autoplay><source src="' + v + '" type="video/mp4"></video>'; document.getElementById('fsModalDesc').textContent = d; document.getElementById('fsModalDesc').style.display = d ? 'block' : 'none'; m.classList.add('active'); document.body.style.overflow = 'hidden' }
+    function openPdfModal(t, p) { var m = document.getElementById('fsModal'); document.getElementById('fsModalTitle').textContent = t; document.getElementById('fsModalBody').innerHTML = '<iframe src="' + p + '" title="' + t + '"></iframe>'; document.getElementById('fsModalDesc').style.display = 'none'; m.classList.add('active'); document.body.style.overflow = 'hidden' }
+    function closeFsModal(e) { if (e && e.target !== document.getElementById('fsModal')) return; var m = document.getElementById('fsModal'); m.classList.remove('active'); var v = m.querySelector('video'); if (v) v.pause(); document.getElementById('fsModalBody').innerHTML = ''; document.body.style.overflow = '' }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFsModal() });
+  </script>
+
+
 </body>
+
 </html>
